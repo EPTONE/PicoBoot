@@ -1,4 +1,6 @@
 /home/christopher/Programs/PERSONAL/Experiments/C/Pico/Bootloader/build/CMakeFiles/pico.dir
+/home/christopher/Programs/PERSONAL/Experiments/C/Pico/Bootloader/build/CMakeFiles/picotoolForceReconfigure.dir
+/home/christopher/Programs/PERSONAL/Experiments/C/Pico/Bootloader/build/CMakeFiles/picotoolBuild.dir
 /home/christopher/Programs/PERSONAL/Experiments/C/Pico/Bootloader/build/CMakeFiles/edit_cache.dir
 /home/christopher/Programs/PERSONAL/Experiments/C/Pico/Bootloader/build/CMakeFiles/rebuild_cache.dir
 /home/christopher/Programs/PERSONAL/Experiments/C/Pico/Bootloader/build/dep/pico-vfs/CMakeFiles/edit_cache.dir

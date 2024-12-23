@@ -1,8 +1,7 @@
 CMakeFiles/pico.dir/Src/main.c.o: \
  /home/christopher/Programs/PERSONAL/Experiments/C/Pico/Bootloader/Src/main.c \
  /home/christopher/Programs/PERSONAL/Experiments/C/Pico/Bootloader/Src/ASM/loader.h \
- /home/christopher/Programs/PERSONAL/Experiments/C/Pico/Bootloader/dep/pico-vfs/vendor/ff15/source/ff.h \
- /home/christopher/Programs/PERSONAL/Experiments/C/Pico/Bootloader/dep/pico-vfs/include/filesystem/ChaN/ffconf.h \
+ /home/christopher/Programs/PERSONAL/Experiments/C/Pico/Bootloader/dep/pico-vfs/include/blockdevice/sd.h \
  /usr/lib/gcc/arm-none-eabi/14.2.0/include/stdint.h \
  /usr/arm-none-eabi/include/stdint.h \
  /usr/arm-none-eabi/include/machine/_default_types.h \
@@ -10,7 +9,6 @@ CMakeFiles/pico.dir/Src/main.c.o: \
  /usr/arm-none-eabi/include/_newlib_version.h \
  /usr/arm-none-eabi/include/sys/_intsup.h \
  /usr/arm-none-eabi/include/sys/_stdint.h \
- /home/christopher/Programs/PERSONAL/Experiments/C/Pico/Bootloader/dep/pico-vfs/include/blockdevice/sd.h \
  /home/christopher/Programs/DOWNLOADED/Libs/PicoSDKs/pico-sdk/src/rp2_common/hardware_spi/include/hardware/spi.h \
  /home/christopher/Programs/DOWNLOADED/Libs/PicoSDKs/pico-sdk/src/common/pico_base_headers/include/pico.h \
  /home/christopher/Programs/DOWNLOADED/Libs/PicoSDKs/pico-sdk/src/common/pico_base_headers/include/pico/types.h \
@@ -72,4 +70,6 @@ CMakeFiles/pico.dir/Src/main.c.o: \
  /usr/arm-none-eabi/include/sys/_locale.h \
  /usr/arm-none-eabi/include/unistd.h \
  /usr/arm-none-eabi/include/sys/unistd.h \
- /home/christopher/Programs/PERSONAL/Experiments/C/Pico/Bootloader/dep/pico-vfs/include/filesystem/vfs.h
+ /home/christopher/Programs/PERSONAL/Experiments/C/Pico/Bootloader/dep/pico-vfs/include/filesystem/vfs.h \
+ /home/christopher/Programs/PERSONAL/Experiments/C/Pico/Bootloader/dep/pico-vfs/vendor/ff15/source/ff.h \
+ /home/christopher/Programs/PERSONAL/Experiments/C/Pico/Bootloader/dep/pico-vfs/include/filesystem/ChaN/ffconf.h

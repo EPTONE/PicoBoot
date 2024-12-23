@@ -81,6 +81,8 @@ preinstall: pico-sdk/preinstall
 
 # The main recursive "clean" target.
 clean: CMakeFiles/pico.dir/clean
+clean: CMakeFiles/picotoolForceReconfigure.dir/clean
+clean: CMakeFiles/picotoolBuild.dir/clean
 clean: dep/pico-vfs/clean
 clean: pico-sdk/clean
 .PHONY : clean
@@ -2294,6 +2296,7 @@ pico-sdk/clean:
 # Target rules for target CMakeFiles/pico.dir
 
 # All Build rule for target.
+CMakeFiles/pico.dir/all: CMakeFiles/picotoolBuild.dir/all
 CMakeFiles/pico.dir/all: dep/pico-vfs/pico-sdk/src/rp2040/boot_stage2/CMakeFiles/bs2_default_library.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico.dir/build.make CMakeFiles/pico.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico.dir/build.make CMakeFiles/pico.dir/build
@@ -2302,7 +2305,7 @@ CMakeFiles/pico.dir/all: dep/pico-vfs/pico-sdk/src/rp2040/boot_stage2/CMakeFiles
 
 # Build rule for subdir invocation for target.
 CMakeFiles/pico.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/christopher/Programs/PERSONAL/Experiments/C/Pico/Bootloader/build/CMakeFiles 73
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/christopher/Programs/PERSONAL/Experiments/C/Pico/Bootloader/build/CMakeFiles 82
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/pico.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/christopher/Programs/PERSONAL/Experiments/C/Pico/Bootloader/build/CMakeFiles 0
 .PHONY : CMakeFiles/pico.dir/rule
@@ -2321,6 +2324,70 @@ CMakeFiles/pico.dir/codegen:
 CMakeFiles/pico.dir/clean:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/pico.dir/build.make CMakeFiles/pico.dir/clean
 .PHONY : CMakeFiles/pico.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/picotoolForceReconfigure.dir
+
+# All Build rule for target.
+CMakeFiles/picotoolForceReconfigure.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/picotoolForceReconfigure.dir/build.make CMakeFiles/picotoolForceReconfigure.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/picotoolForceReconfigure.dir/build.make CMakeFiles/picotoolForceReconfigure.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/christopher/Programs/PERSONAL/Experiments/C/Pico/Bootloader/build/CMakeFiles --progress-num= "Built target picotoolForceReconfigure"
+.PHONY : CMakeFiles/picotoolForceReconfigure.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/picotoolForceReconfigure.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/christopher/Programs/PERSONAL/Experiments/C/Pico/Bootloader/build/CMakeFiles 0
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/picotoolForceReconfigure.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/christopher/Programs/PERSONAL/Experiments/C/Pico/Bootloader/build/CMakeFiles 0
+.PHONY : CMakeFiles/picotoolForceReconfigure.dir/rule
+
+# Convenience name for target.
+picotoolForceReconfigure: CMakeFiles/picotoolForceReconfigure.dir/rule
+.PHONY : picotoolForceReconfigure
+
+# codegen rule for target.
+CMakeFiles/picotoolForceReconfigure.dir/codegen:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/picotoolForceReconfigure.dir/build.make CMakeFiles/picotoolForceReconfigure.dir/codegen
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/christopher/Programs/PERSONAL/Experiments/C/Pico/Bootloader/build/CMakeFiles --progress-num= "Finished codegen for target picotoolForceReconfigure"
+.PHONY : CMakeFiles/picotoolForceReconfigure.dir/codegen
+
+# clean rule for target.
+CMakeFiles/picotoolForceReconfigure.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/picotoolForceReconfigure.dir/build.make CMakeFiles/picotoolForceReconfigure.dir/clean
+.PHONY : CMakeFiles/picotoolForceReconfigure.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/picotoolBuild.dir
+
+# All Build rule for target.
+CMakeFiles/picotoolBuild.dir/all: CMakeFiles/picotoolForceReconfigure.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/picotoolBuild.dir/build.make CMakeFiles/picotoolBuild.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/picotoolBuild.dir/build.make CMakeFiles/picotoolBuild.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/christopher/Programs/PERSONAL/Experiments/C/Pico/Bootloader/build/CMakeFiles --progress-num=76,77,78,79,80,81,82,83,84 "Built target picotoolBuild"
+.PHONY : CMakeFiles/picotoolBuild.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/picotoolBuild.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/christopher/Programs/PERSONAL/Experiments/C/Pico/Bootloader/build/CMakeFiles 9
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/picotoolBuild.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/christopher/Programs/PERSONAL/Experiments/C/Pico/Bootloader/build/CMakeFiles 0
+.PHONY : CMakeFiles/picotoolBuild.dir/rule
+
+# Convenience name for target.
+picotoolBuild: CMakeFiles/picotoolBuild.dir/rule
+.PHONY : picotoolBuild
+
+# codegen rule for target.
+CMakeFiles/picotoolBuild.dir/codegen: CMakeFiles/picotoolForceReconfigure.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/picotoolBuild.dir/build.make CMakeFiles/picotoolBuild.dir/codegen
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/christopher/Programs/PERSONAL/Experiments/C/Pico/Bootloader/build/CMakeFiles --progress-num=76,77,78,79,80,81,82,83,84 "Finished codegen for target picotoolBuild"
+.PHONY : CMakeFiles/picotoolBuild.dir/codegen
+
+# clean rule for target.
+CMakeFiles/picotoolBuild.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/picotoolBuild.dir/build.make CMakeFiles/picotoolBuild.dir/clean
+.PHONY : CMakeFiles/picotoolBuild.dir/clean
 
 #=============================================================================
 # Target rules for target dep/pico-vfs/pico-sdk/src/rp2040/boot_stage2/CMakeFiles/bs2_default.dir
@@ -2425,7 +2492,7 @@ dep/pico-vfs/pico-sdk/src/rp2040/boot_stage2/CMakeFiles/bs2_default_library.dir/
 dep/pico-vfs/pico-sdk/src/rp2_common/pico_cyw43_driver/CMakeFiles/pioasmBuild.dir/all:
 	$(MAKE) $(MAKESILENT) -f dep/pico-vfs/pico-sdk/src/rp2_common/pico_cyw43_driver/CMakeFiles/pioasmBuild.dir/build.make dep/pico-vfs/pico-sdk/src/rp2_common/pico_cyw43_driver/CMakeFiles/pioasmBuild.dir/depend
 	$(MAKE) $(MAKESILENT) -f dep/pico-vfs/pico-sdk/src/rp2_common/pico_cyw43_driver/CMakeFiles/pioasmBuild.dir/build.make dep/pico-vfs/pico-sdk/src/rp2_common/pico_cyw43_driver/CMakeFiles/pioasmBuild.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/christopher/Programs/PERSONAL/Experiments/C/Pico/Bootloader/build/CMakeFiles --progress-num=76,77,78,79,80,81,82,83 "Built target pioasmBuild"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/christopher/Programs/PERSONAL/Experiments/C/Pico/Bootloader/build/CMakeFiles --progress-num=85,86,87,88,89,90,91,92 "Built target pioasmBuild"
 .PHONY : dep/pico-vfs/pico-sdk/src/rp2_common/pico_cyw43_driver/CMakeFiles/pioasmBuild.dir/all
 
 # Build rule for subdir invocation for target.
@@ -2442,7 +2509,7 @@ pioasmBuild: dep/pico-vfs/pico-sdk/src/rp2_common/pico_cyw43_driver/CMakeFiles/p
 # codegen rule for target.
 dep/pico-vfs/pico-sdk/src/rp2_common/pico_cyw43_driver/CMakeFiles/pioasmBuild.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f dep/pico-vfs/pico-sdk/src/rp2_common/pico_cyw43_driver/CMakeFiles/pioasmBuild.dir/build.make dep/pico-vfs/pico-sdk/src/rp2_common/pico_cyw43_driver/CMakeFiles/pioasmBuild.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/christopher/Programs/PERSONAL/Experiments/C/Pico/Bootloader/build/CMakeFiles --progress-num=76,77,78,79,80,81,82,83 "Finished codegen for target pioasmBuild"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/christopher/Programs/PERSONAL/Experiments/C/Pico/Bootloader/build/CMakeFiles --progress-num=85,86,87,88,89,90,91,92 "Finished codegen for target pioasmBuild"
 .PHONY : dep/pico-vfs/pico-sdk/src/rp2_common/pico_cyw43_driver/CMakeFiles/pioasmBuild.dir/codegen
 
 # clean rule for target.
