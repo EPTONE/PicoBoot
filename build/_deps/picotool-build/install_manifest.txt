@@ -1,5 +1,0 @@
-/home/christopher/Programs/PERSONAL/Experiments/C/Pico/Bootloader/build/_deps/picotool/picotool
-/home/christopher/Programs/PERSONAL/Experiments/C/Pico/Bootloader/build/_deps/picotool/picotoolTargets.cmake
-/home/christopher/Programs/PERSONAL/Experiments/C/Pico/Bootloader/build/_deps/picotool/picotoolTargets-release.cmake
-/home/christopher/Programs/PERSONAL/Experiments/C/Pico/Bootloader/build/_deps/picotool/picotoolConfig.cmake
-/home/christopher/Programs/PERSONAL/Experiments/C/Pico/Bootloader/build/_deps/picotool/picotoolConfigVersion.cmake
