@@ -1,5 +1,8 @@
+#include <string.h>
+
 /*code base*/
 #include "ASM/loader.h"
+#include "LinkerHeader/linkerscript.h"
 
 /*deps*/
 #include "blockdevice/sd.h"
@@ -23,7 +26,7 @@ int loadapp(char* appname) {
 
   size_t filesize = f_size(&file);
   size_t bytesread;
-  uint8_t app[filesize];
+  uint32_t app[filesize];
   
   f_read(&file, app, filesize, &bytesread);
 
@@ -31,12 +34,16 @@ int loadapp(char* appname) {
   filesystem_fat_free(fatfs);
   blockdevice_sd_free(sd);
 
-  loader(app[1], app[0]);
+  uint32_t dst = 0x20000000 + 10000;
+
+  memcpy(&dst, app, filesize);
+
+  loader(0x1001, 0x1000);
 
   return 0;
 }
 
 int main(void) {
-  loadapp("app");
+  loadapp("/sd/app");
   return 0;
 }
