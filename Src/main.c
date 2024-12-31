@@ -2,7 +2,7 @@
 
 /*code base*/
 #include "ASM/loader.h"
-#include "LinkerHeader/linkerscript.h"
+#include "Linker/linkerscript.h"
 
 /*deps*/
 #include "blockdevice/sd.h"
@@ -24,21 +24,22 @@ int loadapp(char* appname) {
 
   f_open(&file, appname, FA_READ);
 
+  uint32_t *dst = (uint32_t *)__APP_START__;
+
   size_t filesize = f_size(&file);
   size_t bytesread;
-  uint32_t app[filesize];
-  
-  f_read(&file, app, filesize, &bytesread);
+  uint8_t appbytes;
 
+for (uint i = 0; i >= sizeof(filesize); i++) {
+    f_read(&file, &appbytes, 1, &bytesread);
+    memcpy(&dst, &appbytes, dst[0] + i);
+}
+  
   f_close(&file);
   filesystem_fat_free(fatfs);
   blockdevice_sd_free(sd);
 
-  uint32_t dst = 0x20000000 + 10000;
-
-  memcpy(&dst, app, filesize);
-
-  loader(0x1001, 0x1000);
+  loader(dst[0], dst[1]);
 
   return 0;
 }

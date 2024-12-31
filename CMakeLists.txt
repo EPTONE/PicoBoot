@@ -15,9 +15,11 @@ pico_sdk_init()
 add_executable( pico
 
   Src/main.c
-
+  
   Src/ASM/loader.h
   Src/ASM/loader.s
+
+  Src/Linker/linkerscript.h
 )
 
 target_link_libraries( pico PRIVATE -Wl,--print-memory-usage
@@ -30,4 +32,4 @@ target_link_libraries( pico PRIVATE -Wl,--print-memory-usage
 )
 
 pico_add_extra_outputs(${CMAKE_PROJECT_NAME})
-#pico_set_linker_script(pico ${CMAKE_SOURCE_DIR}/memmap.ld)
+pico_set_linker_script(pico ${CMAKE_SOURCE_DIR}/Src/Linker/memmap_bootloader.ld)
