@@ -1,9 +1,13 @@
 /*standerd c library*/
+#include <hardware/regs/addressmap.h>
 #include <string.h>
 
 /*code base*/
 #include "ASM/loader.h"
 #include "Linker/linkerscript.h"
+
+/*SDK*/
+#include <pico/stdlib.h>
 
 /*deps*/
 #include "blockdevice/sd.h"
@@ -39,6 +43,10 @@ int loadapp(char* appname) {
   f_close(&file);
   filesystem_fat_free(fatfs);
   blockdevice_sd_free(sd);
+
+  uint32_t *new_vector_table = dst; // new vector table destination
+  uint32_t *vtor = (uint32_t *)(PPB_BASE + M0PLUS_VTOR_OFFSET); // vector table location
+  *vtor = (uint32_t)new_vector_table; // new vector table assignment
 
   loader(dst[0], dst[1]);
   return 0;
