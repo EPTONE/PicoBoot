@@ -9,11 +9,11 @@ set(FAMILY rp2040)
 include(pico_sdk_import.cmake)
 add_subdirectory(dep/pico-vfs)
 
-project(pico C CXX ASM)
+project(debug C CXX ASM)
 
 pico_sdk_init()
 
-add_executable( pico
+add_executable( ${CMAKE_PROJECT_NAME}
 
   Src/main.c
   
@@ -23,7 +23,7 @@ add_executable( pico
   Src/Linker/linkerscript.h
 )
 
-target_link_libraries(pico PRIVATE -Wl,--print-memory-usage
+target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE -Wl,--print-memory-usage
 
   pico_stdlib
   hardware_spi
@@ -38,4 +38,4 @@ pico_add_extra_outputs(${CMAKE_PROJECT_NAME})
 
 # pico_set_linker_script(pico ${CMAKE_SOURCE_DIR}/External/memmap_app.ld) # this will be added to app template, pico no flash must be true for it to change the addresses
 
-pico_set_linker_script(pico ${CMAKE_SOURCE_DIR}/Src/Linker/memmap_bootloader.ld)
+pico_set_linker_script(${CMAKE_PROJECT_NAME} ${CMAKE_SOURCE_DIR}/Src/Linker/memmap_bootloader.ld)
