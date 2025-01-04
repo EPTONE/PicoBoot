@@ -2,7 +2,6 @@
 #include <hardware/regs/addressmap.h>
 #include <pico/stdio.h>
 #include <stdio.h>
-#include <string.h>
 
 /*code base*/
 #include "ASM/loader.h"
@@ -30,7 +29,7 @@ int loadapp(char* appname) {
 
   filesystem_t *fatfs = filesystem_fat_create();
   if (fatfs == NULL) {
-    printf("%s\n", "failed to creat fat filesystem");
+    printf("%s\n", "failed to creat fat binsystem");
   }
 
   int err = fs_mount("/sd", fatfs, sd);
@@ -39,38 +38,41 @@ int loadapp(char* appname) {
     return -1;
   }
 
-  printf("%s\n", "filesystem mounted");
+  printf("%s\n", "binsystem mounted");
 
-  FIL file;
+  FIL bin;
 
-  f_open(&file, appname, FA_READ);
+  f_open(&bin, appname, FA_READ);
 
-  printf("%s\n", "file opened");
+  printf("%s\n", "bin opened");
 
   uint32_t *dst = (uint32_t *)__APP_START__;
 
-  size_t filesize = f_size(&file);
-  size_t bytesread;
-  uint32_t *appbyte = 0;
-  printf("%s%d\n", "values inited filesize is: ", filesize);
+  size_t bytesread = 0;
+  uint32_t binsize = f_size(&bin);
+  //uint32_t *appbyte = 0;
   
-  for(uint32_t i = 0; i >= filesize; i++) {
-    f_read(&file, appbyte, filesize, &bytesread);
-    *dst++ = *appbyte; //try this first if no work we'll just move the dst++ down to the last line
-                       //and see if that effects the address crossing fingers
+  printf("%s\n", "reading binary file");
+ 
+  for(uint32_t i = 0; i <= binsize; i++) {
+    f_read(&bin, &__APP_START__, 1, &bytesread); 
+    printf("%d\n", bytesread);
   }
 
-  f_close(&file);
+  //printf("%ld", *appbyte);
+  //memcpy((uint32_t *)__APP_START__, &appbyte, sizeof(*appbyte)); //try this first if no work we'll just move the dst++ down to the last line
+
+  f_close(&bin);
   filesystem_fat_free(fatfs);
   blockdevice_sd_free(sd);
 
-  printf("%s\n", "file clean up finished");
+  printf("%s\n", "bin clean up finished");
 
-  uint32_t *new_vector_table = &dst[0]; // new vector table destination
-  uint32_t *vtor = (uint32_t *)__BOOTLOADER_START__; // vector table location
-  *vtor = (uint32_t)new_vector_table; // new vector table assignment
+//  uint32_t *new_vector_table = (uint32_t *)dst[0]; // new vector table destination
+//  uint32_t *vtor = (uint32_t *)__BOOTLOADER_START__; // vector table location
+//  *vtor = (uint32_t)new_vector_table; // new vector table assignment
 
-  printf("%s\n", "vector table updated");
+// printf("%s\n", "vector table updated");
   printf("%s\n", "loading program");
 
   stdio_deinit_all();

@@ -1,3 +1,4 @@
+.thumb_func
 .global loader
 .type loader, "function"
 .p2align 4
