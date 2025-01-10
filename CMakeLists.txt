@@ -27,6 +27,8 @@ target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE -Wl,--print-memory-usage
 
   pico_stdlib
   hardware_spi
+  hardware_flash
+  hardware_sync
   filesystem_fat
   filesystem_vfs
   blockdevice_sd

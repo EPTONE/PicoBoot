@@ -4,5 +4,5 @@
 .p2align 4
 
 loader:
-  msr msp, r1
-  bx r0
+  msr msp, r0
+  bx r1

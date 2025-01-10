@@ -1,5 +1,7 @@
 /*standerd c library*/
 #include <hardware/regs/addressmap.h>
+#include <hardware/regs/m0plus.h>
+#include <pico.h>
 #include <pico/stdio.h>
 #include <stdio.h>
 
@@ -9,19 +11,22 @@
 
 /*SDK*/
 #include <pico/stdlib.h>
+#include <hardware/flash.h>
+#include <hardware/sync.h>
 
 /*deps*/
 #include "blockdevice/sd.h"
 #include "filesystem/fat.h"
 #include "filesystem/vfs.h"
-#include "ff.h"
 
 #define SD_SO 12
 #define SD_SI 11
 #define SD_CLK 10
 #define SD_CS 13
 
-int loadapp(char* appname) {
+#define BOOTLOADER_OFFSET 256 * 1024
+
+void loadapp(char* appname) {
 
   blockdevice_t *sd = blockdevice_sd_create(spi1, SD_SI, SD_SO, SD_CLK, SD_CS, 125000000 / 2 / 4, true);
 
@@ -35,53 +40,46 @@ int loadapp(char* appname) {
   int err = fs_mount("/sd", fatfs, sd);
   if (err == -1) {
     printf("%s\n", "sd card failed to mount");
-    return -1;
   }
 
   printf("%s\n", "binsystem mounted");
 
-  FIL bin;
-
-  f_open(&bin, appname, FA_READ);
+  FILE *bin = fopen(appname, "r");
 
   printf("%s\n", "bin opened");
 
-  uint32_t *dst = (uint32_t *)__APP_START__;
-
+  uint32_t *dst = (uint32_t *)(XIP_BASE + BOOTLOADER_OFFSET);
+  uint8_t buffer[FLASH_SECTOR_SIZE] = {0};
   size_t bytesread = 0;
-  uint32_t binsize = f_size(&bin);
-  //uint32_t *appbyte = 0;
+  size_t program_size = 0;
   
   printf("%s\n", "reading binary file");
  
-  for(uint32_t i = 0; i <= binsize; i++) {
-    f_read(&bin, &__APP_START__, 1, &bytesread); 
+  for(uint32_t i = 0; (bytesread = fread(buffer, 1, sizeof(buffer), bin)) > 0; i++) { 
+
+    uint32_t ints = save_and_disable_interrupts();
+    flash_range_erase(BOOTLOADER_OFFSET + program_size, FLASH_SECTOR_SIZE);
+    flash_range_program(BOOTLOADER_OFFSET + program_size, buffer, bytesread);
+    restore_interrupts(ints);
     printf("%d\n", bytesread);
+    program_size += bytesread; 
   }
 
-  //printf("%ld", *appbyte);
-  //memcpy((uint32_t *)__APP_START__, &appbyte, sizeof(*appbyte)); //try this first if no work we'll just move the dst++ down to the last line
-
-  f_close(&bin);
+  fclose(bin);
   filesystem_fat_free(fatfs);
   blockdevice_sd_free(sd);
 
   printf("%s\n", "bin clean up finished");
 
-//  uint32_t *new_vector_table = (uint32_t *)dst[0]; // new vector table destination
-//  uint32_t *vtor = (uint32_t *)__BOOTLOADER_START__; // vector table location
-//  *vtor = (uint32_t)new_vector_table; // new vector table assignment
+  uint32_t *new_vector_table = dst; // new vector table destination
+  volatile uint32_t *vtor = (uint32_t *)(PPB_BASE + M0PLUS_VTOR_OFFSET); // vector table location
+  *vtor = (uint32_t)new_vector_table; // new vector table assignment
 
-// printf("%s\n", "vector table updated");
-  printf("%s\n", "loading program");
-
-  stdio_deinit_all();
-  
-  loader(dst[0], dst[1]);
-  return 0;
+  loader(new_vector_table[0], new_vector_table[1]);
+//  return 0;
 }
 
 int main(void) {
   stdio_init_all();
-  loadapp("pico.bin");
+  loadapp("/sd/hello.bin");
 }
