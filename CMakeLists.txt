@@ -32,6 +32,7 @@ target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE -Wl,--print-memory-usage
   filesystem_fat
   filesystem_vfs
   blockdevice_sd
+  pico_stdio
 )
 
 # pico_set_binary_type(pico no_flash)
