@@ -17,8 +17,8 @@ add_executable( ${CMAKE_PROJECT_NAME}
 
   Src/main.c
   
-  Src/ASM/loader.h
-  Src/ASM/loader.s
+  Src/ASM/exec.h
+  Src/ASM/exec.s
 
   Src/Linker/linkerscript.h
 )
@@ -26,13 +26,15 @@ add_executable( ${CMAKE_PROJECT_NAME}
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE -Wl,--print-memory-usage
 
   pico_stdlib
+  pico_stdio
+
   hardware_spi
   hardware_flash
   hardware_sync
+
   filesystem_fat
   filesystem_vfs
   blockdevice_sd
-  pico_stdio
 )
 
 # pico_set_binary_type(pico no_flash)

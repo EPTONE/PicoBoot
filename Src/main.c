@@ -1,14 +1,17 @@
-/*standerd c library*/
-#include <pico/stdio.h>
+/* standerd c library */
+
 #include <stdio.h>
 #include <string.h>
 
-/*code base*/
-#include "ASM/loader.h"
+/* code base */
+
+#include "ASM/exec.h"
 #include "Linker/linkerscript.h"
 
-/*SDK*/
+/* SDK */
+
 #include <pico.h>
+#include <pico/stdio.h>
 #include <pico/stdlib.h>
 
 #include <hardware/flash.h>
@@ -16,9 +19,10 @@
 #include <hardware/regs/addressmap.h>
 #include <hardware/regs/m0plus.h>
 
+/* deps */
 
-/*deps*/
 #include "blockdevice/sd.h"
+
 #include "filesystem/fat.h"
 #include "filesystem/vfs.h"
 
@@ -29,16 +33,16 @@
 
 #define BOOTLOADER_OFFSET 256 * 1024
 
-  /* Global File Pointer */
+/* Global File Pointer */
   
-  FILE *bin;
+FILE *fp;
 
-  /* Global Bin File Values */
+/* Global Bin File Values */
 
-  uint8_t buffer[FLASH_SECTOR_SIZE] = {0};
+uint8_t buffer[FLASH_SECTOR_SIZE] = {0};
 
-  size_t bytesread = 0;
-  size_t program_size = 0;
+size_t bytesread = 0;
+size_t proinc = 0;
 
 void app_execute() {
 
@@ -51,14 +55,14 @@ void app_execute() {
   //stdio_deinit_all(); // deinit all pins used as this can fuck up the other program when they also try to do so (for some reason this screws with the other program)
   //maybe because when the vector table resets everything reset hmm, lets just not fuck with it although it would be nice to have a reason
 
-  loader(new_vector_table[0], new_vector_table[1]); // loads program 
+  exec(new_vector_table[0], new_vector_table[1]); // loads program 
 }
 
 int cache_check() {
  
-  while ((bytesread = fread(buffer, 1, sizeof(buffer), bin)) > 0  ) {
-    uint8_t *flash = (uint8_t *)(XIP_BASE + FLASH_SECTOR_SIZE + program_size);
-    if (memcpy(buffer, flash, bytesread) != 0) {
+  while ((bytesread = fread(buffer, 1, sizeof(buffer), fp)) > 0  ) {
+    uint8_t *flash = (uint8_t *)(XIP_BASE + FLASH_SECTOR_SIZE + proinc);
+    if (memcmp(buffer, flash, bytesread) != 0) {
       return -1;
     }
   }
@@ -83,14 +87,14 @@ void load_app(char* appname) {
     printf("%s\n", "sd card failed to mount");
   }
 
-  bin = fopen(appname, "r");
+  fp = fopen(appname, "r");
 
   if (cache_check() == 0) {
     printf("%s\n", "Programs are the same executing");
     app_execute(); 
   }
 
-  if(fseek(bin, 0, SEEK_SET) == -1) {
+  if(fseek(fp, 0, SEEK_SET) == -1) {
     printf("%s%s\n", "fseek failed: ", strerror(errno));
   }
 
@@ -101,24 +105,24 @@ void load_app(char* appname) {
   }
 
   bytesread = 0;
-  program_size = 0;  
+  proinc = 0;  
   
   /* Load Binary */
  
-  while((bytesread = fread(buffer, 1, sizeof(buffer), bin)) > 0) { 
+  while((bytesread = fread(buffer, 1, sizeof(buffer), fp)) > 0) { 
 
     uint32_t ints = save_and_disable_interrupts();
-    flash_range_erase(BOOTLOADER_OFFSET + program_size, FLASH_SECTOR_SIZE);
-    flash_range_program(BOOTLOADER_OFFSET + program_size, buffer, bytesread);
+    flash_range_erase(BOOTLOADER_OFFSET + proinc, FLASH_SECTOR_SIZE);
+    flash_range_program(BOOTLOADER_OFFSET + proinc, buffer, bytesread);
     restore_interrupts(ints);
 
     printf("%d\n", bytesread); // prints amount of bytes read
-    program_size += bytesread; // adjust program size (should rename this as it's used to incriment flash program size)
+    proinc += bytesread; // adjust program size (should rename this as it's used to incriment flash program size)
   }
 
   /* Clean Up Filsystem */
 
-  fclose(bin);
+  fclose(fp);
   filesystem_fat_free(fatfs);
   blockdevice_sd_free(sd);
 

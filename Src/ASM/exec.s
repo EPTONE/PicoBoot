@@ -1,8 +1,8 @@
 .thumb_func
-.global loader
+.global exec
 .type loader, "function"
 .p2align 4
 
-loader:
+exec:
   msr msp, r0
   bx r1
