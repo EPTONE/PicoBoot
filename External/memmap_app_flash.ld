@@ -23,15 +23,15 @@
 
 MEMORY {
 
-/*  INCLUDE "pico_flash_region.ld" */
-  BOOTLOADER(rx) : ORIGIN = 0x10000000, LENGTH = 256k
+/*  INCLUDE "pico_flash_region.ld" (2 * 1024 * 1024) <-- flash_length  */ 
+  APP(rx) : ORIGIN = 0x10000000 + 256k, LENGTH = 2048k - 256k
   RAM(rwx) : ORIGIN =  0x20000000, LENGTH = 256k
   SCRATCH_X(rwx) : ORIGIN = 0x20040000, LENGTH = 4k
   SCRATCH_Y(rwx) : ORIGIN = 0x20041000, LENGTH = 4k
 }
 
-__BOOTLOADER_START__ = ORIGIN(BOOTLOADER);
-__BOOTLOADER_SIZE__ = LENGTH(BOOTLOADER);
+__APP_START__ = ORIGIN(APP);
+__APP_SIZE__ = LENGTH(APP);
 
 /*
 MEMORY
@@ -54,16 +54,7 @@ SECTIONS
 
     .flash_begin : {
         __flash_binary_start = .;
-    } > BOOTLOADER
-
-    .boot2 : {
-        __boot2_start__ = .;
-        KEEP (*(.boot2))
-        __boot2_end__ = .;
-    } > BOOTLOADER
-
-    ASSERT(__boot2_end__ - __boot2_start__ == 256,
-        "ERROR: Pico second stage bootloader must be 256 bytes in size")
+    } > APP
 
     /* The second stage will always enter the image at the start of .text.
        The debugger will use the ELF entry point, which is the _entry_point
@@ -82,7 +73,7 @@ SECTIONS
         KEEP (*(.reset))
         /* TODO revisit this now memset/memcpy/float in ROM */
         /* bit of a hack right now to exclude all floating point and time critical (e.g. memset, memcpy) code from
-         * BOOTLOADER ... we will include any thing excluded here in .data below by default */
+         * APP ... we will include any thing excluded here in .data below by default */
         *(.init)
         *(EXCLUDE_FILE(*libgcc.a: *libc.a:*lib_a-mem*.o *libm.a:) .text*)
         *(.fini)
@@ -122,25 +113,25 @@ SECTIONS
 
         *(.eh_frame*)
         . = ALIGN(4);
-    } > BOOTLOADER
+    } > APP
 
     .rodata : {
         *(EXCLUDE_FILE(*libgcc.a: *libc.a:*lib_a-mem*.o *libm.a:) .rodata*)
         . = ALIGN(4);
         *(SORT_BY_ALIGNMENT(SORT_BY_NAME(.flashdata*)))
         . = ALIGN(4);
-    } > BOOTLOADER
+    } > APP
 
     .ARM.extab :
     {
         *(.ARM.extab* .gnu.linkonce.armextab.*)
-    } > BOOTLOADER
+    } > APP
 
     __exidx_start = .;
     .ARM.exidx :
     {
         *(.ARM.exidx* .gnu.linkonce.armexidx.*)
-    } > BOOTLOADER
+    } > APP
     __exidx_end = .;
 
     /* Machine inspectable binary information */
@@ -150,7 +141,7 @@ SECTIONS
     {
         KEEP(*(.binary_info.keep.*))
         *(.binary_info.*)
-    } > BOOTLOADER
+    } > APP
     __binary_info_end = .;
     . = ALIGN(4);
 
@@ -189,14 +180,14 @@ SECTIONS
         . = ALIGN(4);
         *(.jcr)
         . = ALIGN(4);
-    } > RAM AT> BOOTLOADER
+    } > RAM AT> APP
 
     .tdata : {
         . = ALIGN(4);
 		*(.tdata .tdata.* .gnu.linkonce.td.*)
         /* All data end */
         __tdata_end = .;
-    } > RAM AT> BOOTLOADER
+    } > RAM AT> APP
     PROVIDE(__data_end__ = .);
 
     /* __etext is (for backwards compatibility) the name of the .data init source pointer (...) */
@@ -238,7 +229,7 @@ SECTIONS
         *(.scratch_x.*)
         . = ALIGN(4);
         __scratch_x_end__ = .;
-    } > SCRATCH_X AT > BOOTLOADER
+    } > SCRATCH_X AT > APP
     __scratch_x_source__ = LOADADDR(.scratch_x);
 
     .scratch_y : {
@@ -246,7 +237,7 @@ SECTIONS
         *(.scratch_y.*)
         . = ALIGN(4);
         __scratch_y_end__ = .;
-    } > SCRATCH_Y AT > BOOTLOADER
+    } > SCRATCH_Y AT > APP
     __scratch_y_source__ = LOADADDR(.scratch_y);
 
     /* .stack*_dummy section doesn't contains any symbols. It is only
@@ -270,7 +261,7 @@ SECTIONS
     .flash_end : {
         KEEP(*(.embedded_end_block*))
         PROVIDE(__flash_binary_end = .);
-    } > BOOTLOADER
+    } > APP
 
     /* stack limit is poorly named, but historically is maximum heap ptr */
     __StackLimit = ORIGIN(RAM) + LENGTH(RAM);

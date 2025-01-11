@@ -89,7 +89,7 @@ void load_app(char* appname) {
 
   fp = fopen(appname, "r");
 
-  if (cache_check() == 0) {
+  if (cache_check() == -1) {
     printf("%s\n", "Programs are the same executing");
     app_execute(); 
   }
@@ -131,5 +131,5 @@ void load_app(char* appname) {
 
 int main(void) {
   stdio_init_all();
-  load_app("/sd/hello.bin");
+  load_app("/sd/pico.bin");
 }
