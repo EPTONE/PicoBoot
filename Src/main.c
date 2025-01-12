@@ -31,7 +31,8 @@
 #define SD_CLK 10
 #define SD_CS 13
 
-#define BOOTLOADER_OFFSET 256 * 1024
+#define BOOTLOADER_OFFSET 256 * 1024 // for some reason the linker script dosn't actually work on this maybe because I'm using the wronk byte formate
+                                     // none the less defines like these seem to be the neccesery norm for these things.
 
 /* Global File Pointer */
   
@@ -61,10 +62,17 @@ void app_execute() {
 int cache_check() {
  
   while ((bytesread = fread(buffer, 1, sizeof(buffer), fp)) > 0  ) {
-    uint8_t *flash = (uint8_t *)(XIP_BASE + FLASH_SECTOR_SIZE + proinc);
+
+    uint8_t *flash = (uint8_t *)(XIP_BASE + BOOTLOADER_OFFSET + proinc);
     if (memcmp(buffer, flash, bytesread) != 0) {
-      return -1;
+      return 1;
     }
+
+    printf("%s%d\n", "byteschecked: ", bytesread); // keep this debug printf in here,
+                                                   // or else the compiler throws out the line
+                                                   // below
+
+    proinc += bytesread;
   }
 
   return 0;
@@ -89,10 +97,10 @@ void load_app(char* appname) {
 
   fp = fopen(appname, "r");
 
-  if (cache_check() == -1) {
-    printf("%s\n", "Programs are the same executing");
-    app_execute(); 
-  }
+ if (cache_check() == 0) {
+   printf("%s\n", "Programs are the same executing");
+   app_execute(); 
+ }
 
   if(fseek(fp, 0, SEEK_SET) == -1) {
     printf("%s%s\n", "fseek failed: ", strerror(errno));
@@ -131,5 +139,5 @@ void load_app(char* appname) {
 
 int main(void) {
   stdio_init_all();
-  load_app("/sd/pico.bin");
+  load_app("/sd/displaytest.bin");
 }

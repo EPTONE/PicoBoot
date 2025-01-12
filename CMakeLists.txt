@@ -19,8 +19,8 @@ add_executable( ${CMAKE_PROJECT_NAME}
 
   Src/Linker/linkerscript.h
 
-  Src/Config_Parser/config_parser.c
-  Src/Config_Parser/config_parser.h
+  #  Src/Config_Parser/config_parser.c
+  #  Src/Config_Parser/config_parser.h : not yet still need to brainstorm this
 )
 
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE -Wl,--print-memory-usage
