@@ -1,10 +1,10 @@
 when:
-  event: push
-  branch: Master
+  - event: push
+    branch: Master
 
 steps:
   - name: build
     # image: archlinux/base
     image: debain
     commands:
-    - echo push recived: building
+    - echo "push recived: building"
