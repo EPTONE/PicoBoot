@@ -4,6 +4,6 @@ when:
 
 steps:
   - name: build
-    image: debain
+    image: debian
     commands:
       - echo "push recived: building"
