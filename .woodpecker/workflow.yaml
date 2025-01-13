@@ -4,6 +4,6 @@ when:
 
 steps:
   - name: build
-    image: arch
+    image: archlinux
     commands:
     - echo "push recived: building"
