@@ -1,0 +1,9 @@
+when:
+  event: push
+  branch: Master
+
+steps:
+  - name: build
+    image: arch
+    commands:
+    - echo "push recived: building"
