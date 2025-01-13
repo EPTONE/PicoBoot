@@ -4,7 +4,6 @@ when:
 
 steps:
   - name: build
-    # image: archlinux/base
     image: debain
     commands:
-      - echo "push recived building"
+      - echo "push recived: building"
