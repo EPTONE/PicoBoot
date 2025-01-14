@@ -21,7 +21,6 @@
 
 #define BOOTLOADER_OFFSET 256 * 1024 // for some reason the linker script dosn't actually work on this maybe because I'm using the wrong byte format
                                      // none the less defines like these seem to be the neccesery norm for these things.
-#define RAMBOOT_ADDR 0x20000000
 
 /* Global Bin File Values */
 
