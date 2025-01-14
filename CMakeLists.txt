@@ -17,6 +17,9 @@ add_executable( ${CMAKE_PROJECT_NAME}
   Src/ASM/exec.h
   Src/ASM/exec.s
 
+  Src/Filesystem/filesystem.c
+  Src/Filesystem/filesystem.h
+
   Src/Linker/linkerscript.h
 
   #  Src/Config_Parser/config_parser.c

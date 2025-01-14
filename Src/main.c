@@ -6,7 +6,7 @@
 /* code base */
 
 #include "ASM/exec.h"
-#include "Linker/linkerscript.h"
+#include "Filesystem/filesystem.h"
 
 /* SDK */
 
@@ -19,24 +19,9 @@
 #include <hardware/regs/addressmap.h>
 #include <hardware/regs/m0plus.h>
 
-/* deps */
-
-#include "blockdevice/sd.h"
-
-#include "filesystem/fat.h"
-#include "filesystem/vfs.h"
-
-#define SD_SO 12
-#define SD_SI 11
-#define SD_CLK 10
-#define SD_CS 13
-
 #define BOOTLOADER_OFFSET 256 * 1024 // for some reason the linker script dosn't actually work on this maybe because I'm using the wrong byte format
                                      // none the less defines like these seem to be the neccesery norm for these things.
-
-/* Global File Pointer */
-  
-FILE *fp;
+#define RAMBOOT_ADDR 0x20000000
 
 /* Global Bin File Values */
 
@@ -78,24 +63,14 @@ int cache_check() {
   return 0;
 }
 
-void load_app(char* appname) {
+void load_app(char *appname) {
 
-  /* Filesystem Init */
-
-  blockdevice_t *sd = blockdevice_sd_create(spi1, SD_SI, SD_SO, SD_CLK, SD_CS, 125000000 / 2 / 4, true);
-
-  printf("%s\n", "SD card init");
-
-  filesystem_t *fatfs = filesystem_fat_create();
-  if (fatfs == NULL) {
-    printf("%s\n", "failed to create fat binsystem");
-  }
-
-  if (fs_mount("/sd", fatfs, sd) == -1) {
-    printf("%s\n", "sd card failed to mount");
-  }
+ filesystem_init();
 
   fp = fopen(appname, "r");
+  if(fp == NULL) {
+    printf("%s/n", "failed to open file");
+  }
 
  if (cache_check() == 0) {
    printf("%s\n", "Programs are the same executing");
@@ -130,9 +105,7 @@ void load_app(char* appname) {
 
   /* Clean Up Filsystem */
 
-  fclose(fp);
-  filesystem_fat_free(fatfs);
-  blockdevice_sd_free(sd);
+  filesystem_deinit();
 
   app_execute();
 }
