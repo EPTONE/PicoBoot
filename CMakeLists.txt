@@ -20,6 +20,9 @@ add_executable( ${CMAKE_PROJECT_NAME}
   Src/Filesystem/filesystem.c
   Src/Filesystem/filesystem.h
 
+  Src/Err/err.c
+  Src/Err/err.h
+
   Src/Linker/linkerscript.h
 
   #  Src/Config_Parser/config_parser.c
