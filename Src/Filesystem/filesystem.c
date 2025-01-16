@@ -1,7 +1,14 @@
+/* C Libary Headers  */
+#include <stdio.h>
+#include <errno.h>
+
+/* Deps  */
 #include <filesystem/vfs.h>
 #include <filesystem/fat.h>
 #include <blockdevice/sd.h>
-#include <stdio.h>
+
+/* Code Base */
+#include "../Err/err.h"
 #include "filesystem.h"
 
 /* File Pointer */
@@ -25,12 +32,12 @@ int filesystem_init() {
   fatfs = filesystem_fat_create();
   if (fatfs == NULL) {
     printf("%s\n", "failed to create fat filesystem");
-    return -1;
+    err(errno);
   }
 
   if (fs_mount("/sd", fatfs, sd) == -1) {
     printf("%s\n", "sd card failed to mount");
-    return -2;
+    err(errno);
   }
 
   return 0;

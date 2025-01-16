@@ -7,16 +7,23 @@
 #include<hardware/gpio.h>
 #include <pico/time.h>
 
+#include "err.h"
+
 #define LED_PIN 25
 
-void err(uint32_t code) {
+void err(int32_t code) {
    
    gpio_init(LED_PIN);
    gpio_set_dir(LED_PIN, true);
 
+   if (code == -1) { // led will remain on if code equals -1
+      gpio_put(LED_PIN, true);
+      while(true);
+   }
+
    while(true) {
       
-     for(uint32_t i = 0; i >= code; i++) {
+     for(int32_t i = 0; i >= code; i++) { // code number will blink and then pause for five seconds
         gpio_put(LED_PIN, true);
         sleep_ms(2000);
         gpio_put(LED_PIN, false);

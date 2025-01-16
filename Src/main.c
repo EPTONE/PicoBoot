@@ -2,11 +2,13 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <errno.h>
 
-/* code base */
+/* Code Base */
 
 #include "ASM/exec.h"
 #include "Filesystem/filesystem.h"
+#include "Err/err.h"
 
 /* SDK */
 
@@ -78,6 +80,7 @@ void load_app(char *appname) {
 
   if(fseek(fp, 0, SEEK_SET) == -1) {
     printf("%s%s\n", "fseek failed: ", strerror(errno));
+    err(errno);
   }
 
   /* Bin Values Sanity Check */
