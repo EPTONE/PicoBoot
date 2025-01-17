@@ -25,6 +25,8 @@ add_executable( ${CMAKE_PROJECT_NAME}
 
   Src/Linker/linkerscript.h
 
+  Conf/conf.h
+
   #  Src/Config_Parser/config_parser.c
   #  Src/Config_Parser/config_parser.h : not yet still need to brainstorm this
 )

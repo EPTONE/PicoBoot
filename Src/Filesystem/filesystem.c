@@ -10,6 +10,7 @@
 /* Code Base */
 #include "../Err/err.h"
 #include "filesystem.h"
+#include "../../Conf/conf.h"
 
 /* File Pointer */
   
@@ -25,7 +26,7 @@ filesystem_t *fatfs;
 
 int filesystem_init() {
 
-  sd = blockdevice_sd_create(spi1, SD_SI, SD_SO, SD_CLK, SD_CS, 125000000 / 2 / 4, true);
+  sd = blockdevice_sd_create(SPI, SD_SI, SD_SO, SD_CLK, SD_CS, 125000000 / 2 / 4, true);
 
   printf("%s\n", "SD card init");
 
