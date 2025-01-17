@@ -5,7 +5,7 @@
 You'll want to clone the the [pico-sdk](https://github.com/raspberrypi/pico-sdk.git) first as this will contain many neccesry functions that are used in the software,
 use these commands to download the sdk, and then export it to the enviroment so it can be seen by cmake. (you can also add the export command to your .bashrc)
     
-```
+```sh
 git clone https://github.com/raspberrypi/pico-sdk.git
 export PICO_SDK_PATH=path/to/dir/
 ```
@@ -16,7 +16,7 @@ or look at the values in there, and make sure they corralate with your SD Cards 
 makeing the bootloader load the program. (This configuation set up will be changed in the future in the place of a configuation file .txt file located directly on the SD card
 this will prevent having to constanly recompile and reflash the program onto the pico, and may help in other aspects of the bootloader)
     
-```
+```sh
 git clone --recursive https://github.com/EPTONE/PicoBoot.git
 cd PicoBoot
 mkdir build
@@ -38,14 +38,14 @@ you'll also need the pico-sdk as well, this will have many of the basic function
 when using the device [pico-sdk](https://github.com/raspberrypi/pico-sdk.git). You'll have to tell cmake where it is
 with these commands.
 
-```
+```sh
 git clone https://github.com/raspberrypi/pico-sdk.git
 export PICO_SDK_PATH=path/to/dir/
 ```
 
 You'll then want to clone the template, and if your itching to just see it work build it and copy the .bin file to you guessed it the SD card
 
-```
+```sh
 git clone https://github.com/EPTONE/PicoBoot-AppTemplate.git
 cd PicoBoot-AppTemplate
 mkdir build
