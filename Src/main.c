@@ -9,6 +9,7 @@
 #include "ASM/exec.h"
 #include "Filesystem/filesystem.h"
 #include "Err/err.h"
+#include "../Conf/conf.h"
 
 /* SDK */
 
@@ -114,5 +115,5 @@ void load_app(char *appname) {
 
 int main(void) {
   stdio_init_all();
-  load_app("/sd/displaytest.bin");
+  load_app(PICOAPP);
 }

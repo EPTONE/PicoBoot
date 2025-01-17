@@ -6,7 +6,7 @@ set(FAMILY rp2040)
 include(pico_sdk_import.cmake)
 add_subdirectory(dep/pico-vfs)
 
-project(debug C CXX ASM)
+project(PicoBoot C CXX ASM)
 
 pico_sdk_init()
 
