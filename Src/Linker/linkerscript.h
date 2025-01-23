@@ -3,7 +3,5 @@
 
 extern int __BOOTLOADER_START__;
 extern int __BOOTLOADER_SIZE__;
-extern int __APP_START__;
-extern int __APP_SIZE__;
 
 #endif

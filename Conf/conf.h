@@ -1,6 +1,8 @@
-/* Program Name */
+#ifndef CONF_H
+#define CONF_H
 
-#define PICOAPP "/sd/pico.bin" // Keep the /sd/ as that is the mounted file, and is needed when fopen is called
+/* Program Name */
+//extern char *pico_app;
 
 /* SD Card Pin Defines */
 #define SPI spi1
@@ -8,3 +10,5 @@
 #define SD_SI 11
 #define SD_CLK 10
 #define SD_CS 13
+
+#endif

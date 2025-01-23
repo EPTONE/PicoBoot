@@ -3,17 +3,19 @@
 ## BUILDING THE SOFTWARE
 
 You'll want to clone the the [pico-sdk](https://github.com/raspberrypi/pico-sdk.git) first as this will contain many neccesry functions that are used in the software,
-use these commands to download the sdk, and then export it to the enviroment so it can be seen by cmake. (you can also add the export command to your .bashrc)
+use these commands to download the sdk, and then export it to the enviroment so it can be seen by cmake. 
+(you can also add the export command to your .bashrc)
     
 ```sh
 git clone https://github.com/raspberrypi/pico-sdk.git
 export PICO_SDK_PATH=path/to/dir/
 ```
     
-next you'll want to clone this repository, and it's depenacy [pico-vfs](https://github.com/oyama/pico-vfs.git) use these commands to do so. 
+next you'll want to clone this repository, and it's depenacy [pico-vfs](https://github.com/oyama/pico-vfs.git), use these commands to do so. 
 (The recursive command will automaticlly clone the depenacy). I would also like to recommend, to take a look at the Conf folder, and edit the values
 or look at the values in there, and make sure they corralate with your SD Cards wiring, also the name of the application will also be important to 
-makeing the bootloader load the program. (This configuation set up will be changed in the future in the place of a configuation file .txt file located directly on the SD card
+makeing the bootloader load the program. 
+(This configuation set up will be changed in the future in the place of a configuation file .txt file located directly on the SD card
 this will prevent having to constanly recompile and reflash the program onto the pico, and may help in other aspects of the bootloader)
     
 ```sh

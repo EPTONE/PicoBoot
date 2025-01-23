@@ -13,9 +13,12 @@ pico_sdk_init()
 add_executable( ${CMAKE_PROJECT_NAME}
 
   Src/main.c
-  
-  Src/ASM/exec.h
-  Src/ASM/exec.s
+
+
+  Src/Loader/ASM/exec.s
+  Src/Loader/ASM/exec.h 
+  Src/Loader/loader.c
+  Src/Loader/loader.h
 
   Src/Filesystem/filesystem.c
   Src/Filesystem/filesystem.h
@@ -25,10 +28,11 @@ add_executable( ${CMAKE_PROJECT_NAME}
 
   Src/Linker/linkerscript.h
 
+  Conf/conf.c
   Conf/conf.h
 
-  #  Src/Config_Parser/config_parser.c
-  #  Src/Config_Parser/config_parser.h : not yet still need to brainstorm this
+  Src/ConfigParser/config_parser.c
+  Src/ConfigParser/config_parser.h # not yet still need to brainstorm this
 )
 
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE -Wl,--print-memory-usage
