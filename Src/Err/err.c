@@ -11,7 +11,12 @@
 
 #define LED_PIN 25
 
-void err(int32_t code) {
+void err(int32_t code) { // I want to redo this probably not the function itself but the idea around it
+                         // right now it's taking in value from errno, I think one should do custom values
+                         // mostly due to the fact that errno values seem to sometimes go into the hundreads
+                         // not exactly a good idea when trying to keep track of flashing lights, another good idea
+                         // would be to replace printf with a logger, this would enable the device to be trouble shot
+                         // entirly from the SD card if there are any issues.
    
    gpio_init(LED_PIN);
    gpio_set_dir(LED_PIN, true);

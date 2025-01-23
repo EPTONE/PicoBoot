@@ -4,14 +4,14 @@
 #include <string.h>
 #include <errno.h>
 
-/* Code Base */
+/* code base */
 
-#include "ASM/exec.h"
+#include "ASM/exec.h" // keep this at the top or else compiler will complain
 #include "../Err/err.h"
 #include "../Filesystem/filesystem.h"
 #include "loader.h"
 
-/* SDK */
+/* pico-sdk */
 
 #include <pico.h>
 #include <pico/stdio.h>

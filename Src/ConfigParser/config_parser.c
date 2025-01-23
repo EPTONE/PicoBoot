@@ -1,16 +1,34 @@
+/* code base */
+#include "config_parser.h"
+#include "../Loader/loader.h"
+
+/* standered c libary */
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
-#include "config_parser.h"
-#include <pico/stdlib.h>
 #include <stdlib.h>
-#include "../Loader/loader.h"
+
+//TODO: also still need to make a config defualt that is automatally generated upon bootloader init
+//      of course only if it already dosn't detect one.
+
+/* pico-sdk */
+#include <pico/stdlib.h>
+
+void conf_act(const char *app_path) { // setting values and then acting upon them need to be two
+                                      // seprate things or else we'll be executeing load_app
+                                      // and taking control away from the bootloader before
+                                      // the bootloader even has the time to make the changes
+  load_app(app_path);
+}
 
 void conf_set(const char *sysval, const char *usrval) {
   
-  if(strcmp(sysval, "app_path.") == 0) { 
+  if(strcmp(sysval, "app_path.") == 0) { // the period does not need to be added, in the conf file
+                                         // this is just random data thats getting thrown into the buffer
+                                         // that for some reason produces a period at the end of the array.
+                                         // TLDR: don't fucking change this as much as your OCD tells you to.
 
-    load_app(usrval); 
+    load_app(usrval); // usrval isn't effect by the shit above.
   }
   else if(strcmp(sysval, "app_path.") == 0) {
 
@@ -33,8 +51,8 @@ void conf_parse(const char *conf_path) {
   uint32_t lettersread = 0;
 
   /* iterations */
-  volatile uint32_t sysint = 0; // system iteration
-  volatile uint32_t usrint = 0; // user iteration
+  volatile uint32_t sysiter = 0; // system iteration
+  volatile uint32_t usriter = 0; // user iteration
   
   /* system value end */
   volatile bool sve = false;
@@ -66,8 +84,8 @@ void conf_parse(const char *conf_path) {
       
       sve = false;
 
-      sysint = 0;
-      usrint = 0;
+      sysiter = 0;
+      usriter = 0;
 
       printf("%s\n", sysval);
       printf("%s\n", usrval);
@@ -83,31 +101,32 @@ void conf_parse(const char *conf_path) {
       buff[0] = 0;
     }
 
-    /* system value buffer */
+    /* system value buffer assienment*/
     if(sve == false && buff[0] != 0) {
 
-      if(sysint >= sizeof(sysval)) {
+      if(sysiter >= sizeof(sysval)) {
         sysval = realloc(sysval, sizeof(sysval) + 10);
       }
 
-      printf("%s%s%s\n", sysval, "letter is being appended to sysval", buff);
-      printf("%s%ld\n", "sysval increment value", sysint);
-      sysval[sysint] = buff[0];
+      printf("%s%s%s\n", buff, "letter is being appended to sysval", sysval);
+      printf("%s%ld\n", "sysval increment value", sysiter);
+      sysval[sysiter] = buff[0];
       
-      sysint++; 
+      sysiter++; 
     }
-    /* user value buffer */
+    
+    /* user value buffer assienment*/
     else if(sve == true && buff[0] != 0) {
      
-      if(usrint >= sizeof(usrval)) {
+      if(usriter >= sizeof(usrval)) {
         usrval = realloc(usrval, sizeof(usrval) + 10);
       }
   
-      printf("%s%s%s\n", usrval, " letter is being appended to usrval ", buff);
-      printf("%s%ld\n", "usrval increment value: ", usrint);
-      usrval[usrint] = buff[0];
+      printf("%s%s%s\n", buff, " letter is being appended to usrval ", usrval);
+      printf("%s%ld\n", "usrval increment value: ", usriter);
+      usrval[usriter] = buff[0];
       
-      usrint++;
+      usriter++;
     }
   } while(lettersread != 0);
 

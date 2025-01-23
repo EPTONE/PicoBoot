@@ -1,26 +1,26 @@
-/* C Libary Headers  */
+/* standered c Library */
 #include <stdio.h>
 #include <errno.h>
 
-/* Deps  */
+/* deps  */
 #include <filesystem/vfs.h>
 #include <filesystem/fat.h>
 #include <blockdevice/sd.h>
 
-/* Code Base */
+/* code base */
 #include "../Err/err.h"
 #include "filesystem.h"
 #include "../../Conf/conf.h"
 
-/* File Pointer */
+/* file pointer */
   
 FILE *fp;
 
-/* SD Card Pointer */
+/* SD card pointer */
 
 blockdevice_t *sd;
 
-/* Filesystem Pointer */
+/* filesystem pointer */
 
 filesystem_t *fatfs;
 
