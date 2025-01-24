@@ -25,7 +25,7 @@
 #define BOOTLOADER_OFFSET 256 * 1024 // for some reason the linker script dosn't actually work on this maybe because I'm using the wrong byte format
                                      // none the less defines like these seem to be the neccesery norm for these things.
 
-FILE *file_fp;
+FILE *bin_fp;
 
 /* Global Bin File Values */
 
@@ -50,7 +50,7 @@ void app_execute() {
 
 int cache_check() {
  
-  while ((bytesread = fread(buffer, 1, sizeof(buffer), file_fp)) > 0  ) {
+  while ((bytesread = fread(buffer, 1, sizeof(buffer), bin_fp)) > 0  ) {
 
     uint8_t *flash = (uint8_t *)(XIP_BASE + BOOTLOADER_OFFSET + proinc);
     if (memcmp(buffer, flash, bytesread) != 0) {
@@ -69,8 +69,8 @@ int cache_check() {
 
 void load_app(const char *app_name) {
   
-  file_fp = fopen(app_name, "r");
-  if(file_fp == NULL) {
+  bin_fp = fopen(app_name, "r");
+  if(bin_fp == NULL) {
     printf("%s/n", "failed to open file");
   }
 
@@ -79,7 +79,7 @@ void load_app(const char *app_name) {
    app_execute(); 
  }
 
-  if(fseek(file_fp, 0, SEEK_SET) == -1) {
+  if(fseek(bin_fp, 0, SEEK_SET) == -1) {
     printf("%s%s\n", "fseek failed: ", strerror(errno));
     err(errno);
   }
@@ -95,7 +95,7 @@ void load_app(const char *app_name) {
   
   /* Load Binary */
  
-  while((bytesread = fread(buffer, 1, sizeof(buffer), file_fp)) > 0) { 
+  while((bytesread = fread(buffer, 1, sizeof(buffer), bin_fp)) > 0) { 
 
     uint32_t ints = save_and_disable_interrupts();
     flash_range_erase(BOOTLOADER_OFFSET + proinc, FLASH_SECTOR_SIZE);
@@ -108,7 +108,7 @@ void load_app(const char *app_name) {
 
   /* Clean Up Filsystem */
 
-  filesystem_deinit();
+  filesystem_deinit(bin_fp);
 
   app_execute();
 }

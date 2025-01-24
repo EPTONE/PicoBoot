@@ -12,10 +12,6 @@
 #include "filesystem.h"
 #include "../../Conf/conf.h"
 
-/* file pointer */
-  
-FILE *fp;
-
 /* SD card pointer */
 
 blockdevice_t *sd;
@@ -44,8 +40,8 @@ int filesystem_init() {
   return 0;
 }
 
-void filesystem_deinit() {
-  fclose(fp);
+void filesystem_deinit(FILE *file_fp) {
+  fclose(file_fp);
   filesystem_fat_free(fatfs);
   blockdevice_sd_free(sd);
 }

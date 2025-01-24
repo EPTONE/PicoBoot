@@ -7,10 +7,6 @@
 #include <blockdevice/sd.h>
 #include <filesystem/fat.h>
 
-/* File Pointer  */
-
-extern FILE *fp;
-
 /* SD Card Pointer */
 
 extern blockdevice_t *sd;
@@ -22,6 +18,6 @@ extern filesystem_t *fatfs;
 /* Functions */
 
 int filesystem_init();
-void filesystem_deinit();
+void filesystem_deinit(FILE *file_fp);
 
 #endif
