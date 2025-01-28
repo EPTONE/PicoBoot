@@ -4,7 +4,7 @@ when:
 
 steps:
   - name: build
-    image: archlinux:latest
+    image: archlinux
     commands:
      pacman -S git cmake
      git clone https://github.com/raspberrypi/pico-sdk.git
