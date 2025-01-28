@@ -12,4 +12,7 @@ steps:
     image: alpine
     commands:
       - apk add --no-cache build-base gcc cmake >/dev/null
-      - ls
+      - mkdir build
+      - cd build
+      - cmake -DPICO_SDK_PATH=../pico-sdk ..
+      - make -j4
