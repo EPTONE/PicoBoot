@@ -3,10 +3,13 @@ when:
     branch: Master
 
 steps:
-  - name: build
-    image: debian
+  - name: clone-pico-sdk
+    image: alpine/git:v2.47.1
     commands:
       - git clone https://github.com/raspberrypi/pico-sdk.git
-      - mkdir build
-      - cd build
-      - cmake -DPICO-SDK-PATH=../pico-sdk .. && make -j4
+
+  - name: build
+    image: alpine
+    commands:
+      - apk add --no-cache build-base gcc cmake >/dev/null
+      - ls
