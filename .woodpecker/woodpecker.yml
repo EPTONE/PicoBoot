@@ -15,5 +15,5 @@ steps:
       - apk add --no-cache build-base gcc gcc-arm-none-eabi cmake python3 newlib-arm-none-eabi g++-arm-none-eabi binutils-arm-none-eabi >/dev/null
       - mkdir build
       - cd build
-      - cmake -DPICO_SDK_PATH=../pico-sdk -Dpicotool_DIR=../picotool ..
+      - cmake -DPICO_SDK_PATH=../pico-sdk -DPICOTOOL_FETCH_FROM_GIT_PATH=../picotool ..
       - make -j4
