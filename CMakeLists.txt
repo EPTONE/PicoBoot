@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.31.3)
+cmake_minimum_required(VERSION 3.31.1)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS TRUE)
 set(FAMILY rp2040)
