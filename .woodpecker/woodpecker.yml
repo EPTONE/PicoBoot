@@ -6,8 +6,8 @@ steps:
   - name: build
     image: debian
     commands:
-     apt install git cmake
-     git clone https://github.com/raspberrypi/pico-sdk.git
-     mkdir build
-     cd build
-     cmake -DPICO-SDK-PATH=../pico-sdk .. && make -j4
+      - apt install git cmake
+      - git clone https://github.com/raspberrypi/pico-sdk.git
+      - mkdir build
+      - cd build
+      - cmake -DPICO-SDK-PATH=../pico-sdk .. && make -j4
