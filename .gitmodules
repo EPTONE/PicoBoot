@@ -1,0 +1,3 @@
+[submodule "dep/pico-vfs"]
+  path = dep/pico-vfs
+  url = https://github.com/oyama/pico-vfs.git
