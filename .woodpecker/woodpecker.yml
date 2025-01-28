@@ -11,7 +11,7 @@ steps:
   - name: build
     image: alpine
     commands:
-      - apk add --no-cache build-base gcc gcc-arm-none-eabi cmake python3 newlib-arm-none-eabi g++-arm-none-eabi-newlib binutils-arm-none-eabi >/dev/null
+      - apk add --no-cache build-base gcc gcc-arm-none-eabi cmake python3 newlib-arm-none-eabi g++-arm-none-eabi binutils-arm-none-eabi >/dev/null
       - mkdir build
       - cd build
       - cmake -DPICO_SDK_PATH=../pico-sdk ..
