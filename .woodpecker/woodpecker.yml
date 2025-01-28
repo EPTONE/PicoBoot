@@ -4,9 +4,9 @@ when:
 
 steps:
   - name: build
-    image: archlinux
+    image: debain
     commands:
-     pacman -S git cmake
+     apt install git cmake
      git clone https://github.com/raspberrypi/pico-sdk.git
      mkdir build
      cd build
