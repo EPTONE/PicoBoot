@@ -8,6 +8,8 @@ steps:
     image: picodev:latest
     commands:
       - ls /
+      - ls /pico-sdk
+      - ls /picotool
       # - export PICO_SDK_PATH=/pico-sdk
       # - export picotool_DIR=/picotool/picotool
       - mkdir build
