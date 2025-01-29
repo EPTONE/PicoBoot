@@ -2,7 +2,7 @@ when:
   - event: push
     branch: Master
 
-# build lol
+# build lamo
 steps:
   - name: build
     image: picodev:latest
