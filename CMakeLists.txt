@@ -14,7 +14,6 @@ add_executable( ${CMAKE_PROJECT_NAME}
 
   Src/main.c
 
-
   Src/Loader/ASM/exec.s
   Src/Loader/ASM/exec.h 
   Src/Loader/loader.c
@@ -28,7 +27,6 @@ add_executable( ${CMAKE_PROJECT_NAME}
 
   Src/Linker/linkerscript.h
 
-  Conf/conf.c
   Conf/conf.h
 
   Src/ConfigParser/config_parser.c
