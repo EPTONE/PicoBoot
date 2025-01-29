@@ -2,7 +2,7 @@ when:
   - event: push
     branch: Master
 
-# build
+# build lol
 steps:
   - name: build
     image: picodev:latest
@@ -11,7 +11,7 @@ steps:
       - ls /pico-sdk
       - ls /picotool
       - export PICO_SDK_PATH=/pico-sdk
-      - export picotool_DIR=/picotool/picotool
+      - export picotool_DIR=/picotool
       - mkdir build
       - cd build
       - cmake ..
