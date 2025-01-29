@@ -11,7 +11,7 @@ steps:
       - ls /pico-sdk
       - ls /picotool
       - export PICO_SDK_PATH=/pico-sdk
-      - export picotool_DIR=/picotool
+      - export PICOTOOL_FETCH_FROM_GIT_PATH=/picotool
       - mkdir build
       - cd build
       - cmake ..
