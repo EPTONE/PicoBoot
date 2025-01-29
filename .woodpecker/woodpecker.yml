@@ -2,6 +2,7 @@ when:
   - event: push
     branch: Master
 
+# build
 steps:
   - name: build
     image: picodev:latest
