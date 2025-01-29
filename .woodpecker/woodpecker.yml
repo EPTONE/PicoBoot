@@ -10,8 +10,8 @@ steps:
       - ls /
       - ls /pico-sdk
       - ls /picotool
-      # - export PICO_SDK_PATH=/pico-sdk
-      # - export picotool_DIR=/picotool/picotool
+      - export PICO_SDK_PATH=/pico-sdk
+      - export picotool_DIR=/picotool/picotool
       - mkdir build
       - cd build
       - cmake ..
