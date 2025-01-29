@@ -3,12 +3,6 @@ when:
     branch: Master
 
 steps:
-  - name: clone-pico-sdk
-    image: alpine/git:v2.47.1
-    commands:
-      - git clone https://github.com/raspberrypi/pico-sdk.git
-      - git clone https://github.com/raspberrypi/picotool.git
-
   - name: build
     image: picodev:latest
     commands:
