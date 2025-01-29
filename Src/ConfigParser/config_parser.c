@@ -14,25 +14,25 @@
 /* pico-sdk */
 #include <pico/stdlib.h>
 
-void conf_act(const char *app_path) { // setting values and then acting upon them need to be two
+char *app_path;
+
+void conf_act() { // setting values and then acting upon them need to be two
                                       // seprate things or else we'll be executeing load_app
                                       // and taking control away from the bootloader before
                                       // the bootloader even has the time to make the changes
   load_app(app_path);
 }
 
-void conf_set(const char *sysval, const char *usrval) {
+void conf_set(const char *sysval, char *usrval) {
   
   if(strcmp(sysval, "app_path.") == 0) { // the period does not need to be added, in the conf file
                                          // this is just random data thats getting thrown into the buffer
                                          // that for some reason produces a period at the end of the array.
-                                         // TLDR: don't fucking change this as much as your OCD tells you to.
-
-    load_app(usrval); // usrval isn't effect by the shit above.
+    app_path = usrval;                   // TLDR: don't fucking change this as much as your OCD tells you to.
   }
   else if(strcmp(sysval, "app_path.") == 0) {
 
-    load_app("/sd/pico.bin");
+    app_path = "/sd/pico.bin";
   }
 }
 
@@ -135,4 +135,6 @@ void conf_parse(const char *conf_path) {
   free(usrval);
   usrval = 0;
   fclose(conffp);
+
+  conf_act();
 }

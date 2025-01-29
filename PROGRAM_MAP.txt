@@ -1,0 +1,44 @@
+
+|Src
+|---
+|-main.c
+|
+|__ConfigParser
+|  |------------
+|  |-config_parser.c
+|  |-config_parser.h
+|
+|__Err
+|  |--
+|  |-err.c
+|  |-err.h
+|
+|__Filesystem
+|  |---------
+|  |-filesystem.c
+|  |-filesystem.h
+|
+|__Linker
+|  |-----
+|  |-memmap_bootloader.d
+|  |-linkerscript.h
+|
+|__Loader
+|  |-----
+|  |-loader.c
+|  |-loader.h
+|  |-ASM
+
+Src: main source directory of the program
+
+ConfigParser: parses configeration files, and assigens values from said config file
+
+Err: main error handler for program |work in progress| - needs to be better implimented
+
+Filesystem: initalizes the sd card, and filsystem pointers to be used by the bootloader
+
+Linker: ensures that the bootloader is not exceeding it's predefined length.
+
+Loader: loads program into flash
+      |
+      |__ASM: executes program from flash

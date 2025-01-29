@@ -2,14 +2,10 @@ when:
   - event: push
     branch: Master
 
-# build lamo
 steps:
   - name: build
     image: picodev:latest
     commands:
-      - ls /
-      - ls /pico-sdk
-      - ls /picotool
       - export PICO_SDK_PATH=/pico-sdk
       - export PICOTOOL_FETCH_FROM_GIT_PATH=/picotool
       - mkdir build
