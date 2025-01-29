@@ -27,7 +27,12 @@
 |  |-----
 |  |-loader.c
 |  |-loader.h
-|  |-ASM
+|  |
+|  |__ASM
+|  |  |--
+|  |  |-exec.s
+|  |  |-exec.h
++-----+
 
 Src: main source directory of the program
 
