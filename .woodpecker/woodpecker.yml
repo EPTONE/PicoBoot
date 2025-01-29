@@ -10,13 +10,9 @@ steps:
       - git clone https://github.com/raspberrypi/picotool.git
 
   - name: build
-    image: alpine
+    image: picodev:latest
     commands:
-      - apk add --no-cache build-base gcc gcc-arm-none-eabi cmake python3 newlib-arm-none-eabi g++-arm-none-eabi binutils-arm-none-eabi linux-headers >/dev/null
-      - cd picotool && mkdir build && cd build && cmake -DPICO_SDK_PATH=../../pico-sdk .. && make -j4
-      - cd ..
-      - cd ..
       - mkdir build
       - cd build
-      - cmake -DPICO_SDK_PATH=../pico-sdk -Dpicotool_DIR=../picotool/build/picotool ..
+      - cmake ..
       - make -j4
