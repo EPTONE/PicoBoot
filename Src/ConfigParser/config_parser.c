@@ -14,25 +14,29 @@
 /* pico-sdk */
 #include <pico/stdlib.h>
 
-char *app_path;
+// we should probably impliment and app exec, as where taking control away from the bootloader
+// thus it should be executed last, and since where having trouble storing strings, it would be wise
+// to think of a solution outside of the use of that
+//
+// solution 1: we impliment a seprate folder called, app_name or something along those lines
+// and use that as the file we select the executable from unforchantly I think this wouldn't make any sense
+// as we already have a perfectly good .conf folder we can use
+//
+// solution 2: we use the existing file, but cache the begining of every line and store that value
+// and then go, back to the cache once the conf file has been read, and read that line using the values it
+// has to exec load_app, and if the values don't match when we check that line we set the default value
 
-void conf_act() { // setting values and then acting upon them need to be two
-                                      // seprate things or else we'll be executeing load_app
-                                      // and taking control away from the bootloader before
-                                      // the bootloader even has the time to make the changes
-  load_app(app_path);
-}
-
-void conf_set(const char *sysval, char *usrval) {
+void conf_set(const char *sysval, const char *usrval) {
   
-  if(strcmp(sysval, "app_path.") == 0) { // the period does not need to be added, in the conf file
-                                         // this is just random data thats getting thrown into the buffer
-                                         // that for some reason produces a period at the end of the array.
-    app_path = usrval;                   // TLDR: don't fucking change this as much as your OCD tells you to.
+  if(strcmp(sysval, "app_path.") == 0) { // I think the problem with the period stems from malloc
+                                         // maybe it's throwing something into memory that it shouldn't,
+                                         // or again it's just something in the library, well we'll find out
+                                         // when we switch librarys.
+    load_app(usrval);
   }
   else if(strcmp(sysval, "app_path.") == 0) {
 
-    app_path = "/sd/pico.bin";
+    load_app("/sd/pico.bin");
   }
 }
 
@@ -135,6 +139,4 @@ void conf_parse(const char *conf_path) {
   free(usrval);
   usrval = 0;
   fclose(conffp);
-
-  conf_act();
 }
