@@ -26,17 +26,31 @@
 // and then go, back to the cache once the conf file has been read, and read that line using the values it
 // has to exec load_app, and if the values don't match when we check that line we set the default value
 
-void conf_set(const char *sysval, const char *usrval) {
+char *app_name;
+
+void conf_act() {
+  
+  load_app(app_name);
+}
+
+
+void conf_set(const char *sysval, const char *usrval, const size_t usrvalsize) {
   
   if(strcmp(sysval, "app_path.") == 0) { // I think the problem with the period stems from malloc
                                          // maybe it's throwing something into memory that it shouldn't,
                                          // or again it's just something in the library, well we'll find out
                                          // when we switch librarys.
-    load_app(usrval);
+    printf("usrvalue sie is : %d", usrvalsize);
+    app_name = malloc(usrvalsize+1);
+    app_name[usrvalsize] = 0;
+    for (volatile uint32_t i = 0; i <= usrvalsize - 1; i++) {
+     
+      app_name[i] = usrval[i];
+    } 
   }
   else if(strcmp(sysval, "app_path.") == 0) {
 
-    load_app("/sd/pico.bin");
+    app_name = "/sd/pico.bin";
   }
 }
 
@@ -84,7 +98,7 @@ void conf_parse(const char *conf_path) {
     /* reset all vars, and clear all buffers */
     if(buff[0] == '\n') {
 
-      conf_set(sysval, usrval);
+      conf_set(sysval, usrval, usriter);
       
       sve = false;
 
@@ -95,11 +109,11 @@ void conf_parse(const char *conf_path) {
       printf("%s\n", usrval);
 
       for(uint32_t sysclr = 0; sysclr <= sizeof(sysval); sysclr++) {
-        sysval[sysclr] = 0;
+        sysval[sysclr] = '\0';
       }
 
       for(uint32_t usrclr = 0; usrclr <= sizeof(usrval); usrclr++) {
-        usrval[usrclr] = 0;
+        usrval[usrclr] = '\0';
       }
 
       buff[0] = 0;
@@ -139,4 +153,6 @@ void conf_parse(const char *conf_path) {
   free(usrval);
   usrval = 0;
   fclose(conffp);
+
+  conf_act();
 }

@@ -69,6 +69,7 @@ int cache_check() {
 
 void load_app(const char *app_name) {
   
+  printf("opening file: %s", app_name);
   bin_fp = fopen(app_name, "r");
   if(bin_fp == NULL) {
     printf("%s/n", "failed to open file");
