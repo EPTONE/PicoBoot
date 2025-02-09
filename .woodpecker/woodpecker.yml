@@ -6,7 +6,7 @@ steps:
   - name: build
     image: pico-build:latest
     commands:
-      - ./Bash/sdkcheck.sh
+      - /Bash/sdkcheck.sh
       - mkdir build
       - cd build
       - cmake ..
