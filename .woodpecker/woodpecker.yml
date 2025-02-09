@@ -10,5 +10,6 @@ steps:
       - cd build
       - cmake ..
       - make -j4
+    privileged: true
     volumes:
       - ~/Programs/Downloaded/Pico/Libs:/libs
