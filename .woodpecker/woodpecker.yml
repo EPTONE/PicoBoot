@@ -8,6 +8,7 @@ steps:
     commands:
       - export PICO_SDK_PATH=/libs/pico-sdk
       - export picotool_DIR=/libs/picotool
+      - export PIMORONI_PICO_PATH=/libs/pimoroni-pico
       - mkdir build
       - cd build
       - cmake ..
