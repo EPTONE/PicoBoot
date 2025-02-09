@@ -6,8 +6,8 @@ steps:
   - name: build
     image: pico-build:latest
     commands:
-      - ls /Bash
-      - /Bash/sdkcheck.sh
+      - export libs/pico-sdk
+      - export libs/picotool
       - mkdir build
       - cd build
       - cmake ..
