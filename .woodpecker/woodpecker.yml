@@ -11,4 +11,4 @@ steps:
       - cmake ..
       - make -j4
     volumes:
-      - /home/chistopher/Programs/Downloaded/Pico/Libs:/libs
+      - /Programs/Downloaded/Pico/Libs:/libs
