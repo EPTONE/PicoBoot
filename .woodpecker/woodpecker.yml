@@ -12,4 +12,4 @@ steps:
       - make -j4
     privileged: true
     volumes:
-      - ~/Programs/Downloaded/Pico/Libs:/libs
+      - /home/chistopher/Programs/Downloaded/Pico/Libs:/libs
