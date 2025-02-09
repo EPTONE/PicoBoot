@@ -6,8 +6,8 @@ steps:
   - name: build
     image: pico-build:latest
     commands:
-      - export PICO_SDK_PATH=libs/pico-sdk
-      - export picotool_DIR=libs/picotool
+      - export PICO_SDK_PATH=/libs/pico-sdk
+      - export picotool_DIR=/libs/picotool
       - mkdir build
       - cd build
       - cmake ..
