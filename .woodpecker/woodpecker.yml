@@ -4,11 +4,11 @@ when:
 
 steps:
   - name: build
-    image: picodev:latest
+    image: pico-build:latest
     commands:
-      - export PICO_SDK_PATH=/pico-sdk
-      - export PICOTOOL_FETCH_FROM_GIT_PATH=/picotool
       - mkdir build
       - cd build
       - cmake ..
       - make -j4
+    volumes:
+      - ~/Programs/Downloaded/Pico/Libs:/libs
