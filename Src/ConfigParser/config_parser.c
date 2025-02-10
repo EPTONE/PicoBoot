@@ -14,18 +14,6 @@
 /* pico-sdk */
 #include <pico/stdlib.h>
 
-// we should probably impliment and app exec, as where taking control away from the bootloader
-// thus it should be executed last, and since where having trouble storing strings, it would be wise
-// to think of a solution outside of the use of that
-//
-// solution 1: we impliment a seprate folder called, app_name or something along those lines
-// and use that as the file we select the executable from unforchantly I think this wouldn't make any sense
-// as we already have a perfectly good .conf folder we can use
-//
-// solution 2: we use the existing file, but cache the begining of every line and store that value
-// and then go, back to the cache once the conf file has been read, and read that line using the values it
-// has to exec load_app, and if the values don't match when we check that line we set the default value
-
 char *app_name;
 
 void conf_act() {
