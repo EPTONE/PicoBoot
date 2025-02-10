@@ -1,6 +1,5 @@
 #### change all file operations to pimoroni ff.h and fatfs
 
-this might fix alot the of the problems I've been expirancing with the traditional stdio.h library I'm hoping it might fix it
-also it will get rid of all the errors on my text editor.
-
-gpg test
+I have found a new implimentation of the fatfs file system I will do some testing
+and then think about impilmenting it into the code base. It looks just as small
+if not smaller then the currantly library, and the pimoroni library so seems pretty goo, but we'll see

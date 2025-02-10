@@ -23,18 +23,18 @@ filesystem_t *fatfs;
 int filesystem_init() {
 
   sd = blockdevice_sd_create(SPI, SD_SI, SD_SO, SD_CLK, SD_CS, 125000000 / 2 / 4, true);
-
-  printf("%s\n", "SD card init");
+  
+  if(sd == NULL) {
+    printf("%s\n", "sdcard failed to init");
+  }
 
   fatfs = filesystem_fat_create();
   if (fatfs == NULL) {
     printf("%s\n", "failed to create fat filesystem");
-    err(errno);
   }
 
   if (fs_mount("/sd", fatfs, sd) == -1) {
     printf("%s\n", "sd card failed to mount");
-    err(errno);
   }
 
   return 0;

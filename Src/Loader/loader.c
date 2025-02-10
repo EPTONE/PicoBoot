@@ -57,9 +57,9 @@ int cache_check() {
       return 1;
     }
 
-    printf("%s%d\n", "byteschecked: ", bytesread); // keep this debug printf in here,
-                                                   // or else the compiler throws out the line
-                                                   // below
+#ifdef Debug
+    printf("%s%d\n", "byteschecked: ", bytesread);
+#endif
 
     proinc += bytesread;
   }
@@ -68,21 +68,27 @@ int cache_check() {
 }
 
 void load_app(const char *app_name) {
-  
+
+#ifdef Debug
   printf("opening file: %s", app_name);
+#endif
+
   bin_fp = fopen(app_name, "r");
   if(bin_fp == NULL) {
     printf("%s/n", "failed to open file");
   }
 
  if (cache_check() == 0) {
+
+#ifdef Debug
    printf("%s\n", "Programs are the same executing");
+#endif 
+
    app_execute(); 
  }
 
   if(fseek(bin_fp, 0, SEEK_SET) == -1) {
     printf("%s%s\n", "fseek failed: ", strerror(errno));
-    err(errno);
   }
 
   /* Bin Values Sanity Check */

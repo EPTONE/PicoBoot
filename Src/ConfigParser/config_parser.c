@@ -28,13 +28,13 @@ void conf_set(const char *sysval, const char *usrval, const size_t usrvalsize) {
                                          // maybe it's throwing something into memory that it shouldn't,
                                          // or again it's just something in the library, well we'll find out
                                          // when we switch librarys.
-    printf("usrvalue sie is : %d", usrvalsize);
+#ifdef Debug
+    printf("usrvalue is: %d", usrvalsize);
+#endif
+
     app_name = malloc(usrvalsize+1);
     app_name[usrvalsize] = 0;
-    for (volatile uint32_t i = 0; i <= usrvalsize - 1; i++) {
-     
-      app_name[i] = usrval[i];
-    } 
+    for (uint32_t i = 0; i <= usrvalsize - 1; i++) app_name[i] = usrval[i];
   }
   else if(strcmp(sysval, "app_path.") == 0) {
 
@@ -114,8 +114,11 @@ void conf_parse(const char *conf_path) {
         sysval = realloc(sysval, sizeof(sysval) + 10);
       }
 
+#ifdef Debug
       printf("%s%s%s\n", buff, "letter is being appended to sysval", sysval);
       printf("%s%ld\n", "sysval increment value", sysiter);
+#endif      
+
       sysval[sysiter] = buff[0];
       
       sysiter++; 
@@ -128,8 +131,10 @@ void conf_parse(const char *conf_path) {
         usrval = realloc(usrval, sizeof(usrval) + 10);
       }
   
+#ifdef Debug
       printf("%s%s%s\n", buff, " letter is being appended to usrval ", usrval);
       printf("%s%ld\n", "usrval increment value: ", usriter);
+#endif
       usrval[usriter] = buff[0];
       
       usriter++;
