@@ -3,6 +3,6 @@
 
 #include <stdint.h>
 
-void err(int32_t code);
+void err(int16_t code);
 
 #endif

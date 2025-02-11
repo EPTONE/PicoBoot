@@ -1,5 +1,11 @@
-#### change all file operations to pimoroni ff.h and fatfs
+#### UPDATE debugging prints
 
-I have found a new implimentation of the fatfs file system I will do some testing
-and then think about impilmenting it into the code base. It looks just as small
-if not smaller then the currantly library, and the pimoroni library so seems pretty goo, but we'll see
+we need to do this because in cgdb we can't get past the filesystem init for some fucking reason
+we can then focus on the ff.h
+
+#### change all file operations to ff.h
+
+we should focus on making the loader work first, and then move onto the configeration
+for some weird fucking reason everything in the loader wasn't working, where talking checking if
+it's the same all the way down to not executing the program fuck knows whats going on but if should work
+fine. Sigh.

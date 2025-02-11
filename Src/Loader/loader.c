@@ -11,6 +11,8 @@
 #include "../Filesystem/filesystem.h"
 #include "loader.h"
 
+#include "ff.h"
+
 /* pico-sdk */
 
 #include <pico.h>
@@ -25,7 +27,8 @@
 #define BOOTLOADER_OFFSET 256 * 1024 // for some reason the linker script dosn't actually work on this maybe because I'm using the wrong byte format
                                      // none the less defines like these seem to be the neccesery norm for these things.
 
-FILE *bin_fp;
+FIL binfp;
+FRESULT bfr;
 
 /* Global Bin File Values */
 
@@ -49,17 +52,25 @@ void app_execute() {
 }
 
 int cache_check() {
+
+  printf("\n\n\t=CACHE CHECK=\n\n");
  
-  while ((bytesread = fread(buffer, 1, sizeof(buffer), bin_fp)) > 0  ) {
+  while (true) {
+
+    bfr = f_read(&binfp, buffer, sizeof(buffer), &bytesread);
+    if(bfr != FR_OK) {
+      printf("failed to read file: %d | CACHE CHECK\n", bfr);
+      err(bfr);
+    }
+    if(bytesread <= 0) break;
 
     uint8_t *flash = (uint8_t *)(XIP_BASE + BOOTLOADER_OFFSET + proinc);
     if (memcmp(buffer, flash, bytesread) != 0) {
       return 1;
     }
 
-#ifdef Debug
-    printf("%s%d\n", "byteschecked: ", bytesread);
-#endif
+    printf("bytes checked: %d\n", bytesread);
+    printf("total bytes checked: %d\n", proinc);
 
     proinc += bytesread;
   }
@@ -69,26 +80,25 @@ int cache_check() {
 
 void load_app(const char *app_name) {
 
-#ifdef Debug
-  printf("opening file: %s", app_name);
-#endif
+  printf("opening file: %s\n", app_name);
 
-  bin_fp = fopen(app_name, "r");
-  if(bin_fp == NULL) {
-    printf("%s/n", "failed to open file");
+  bfr = f_open(&binfp, app_name, FA_READ);
+  if(bfr != FR_OK) {
+    printf("failed to open file: %s | BINARY READ | ERROR CODE : %d\n", app_name, bfr);
+    err(bfr);
   }
 
  if (cache_check() == 0) {
 
-#ifdef Debug
    printf("%s\n", "Programs are the same executing");
-#endif 
 
    app_execute(); 
  }
 
-  if(fseek(bin_fp, 0, SEEK_SET) == -1) {
-    printf("%s%s\n", "fseek failed: ", strerror(errno));
+  f_lseek(&binfp, 0);
+  if (bfr != FR_OK){
+    printf("f_lseek failed: BINARY READ\n");
+    err(bfr);
   }
 
   /* Bin Values Sanity Check */
@@ -102,20 +112,30 @@ void load_app(const char *app_name) {
   
   /* Load Binary */
  
-  while((bytesread = fread(buffer, 1, sizeof(buffer), bin_fp)) > 0) { 
+  printf("\n\n\t=BINARY LOAD=\n\n");
+
+  while(true) {
+
+    bfr = f_read(&binfp, buffer, sizeof(buffer), &bytesread);
+    if(bfr != FR_OK) {
+      printf("failed to read file: BINARY LOAD");
+      err(bfr);
+    }
+    if(bytesread <= 0) break;
 
     uint32_t ints = save_and_disable_interrupts();
     flash_range_erase(BOOTLOADER_OFFSET + proinc, FLASH_SECTOR_SIZE);
     flash_range_program(BOOTLOADER_OFFSET + proinc, buffer, bytesread);
     restore_interrupts(ints);
 
-    printf("%d\n", bytesread); // prints amount of bytes read
+    printf("bytesread: %d\n", bytesread); // prints amount of bytes read
+    printf("total bytes read: %d\n", proinc);
     proinc += bytesread; // adjust program size (should rename this as it's used to incriment flash program size)
   }
 
   /* Clean Up Filsystem */
 
-  filesystem_deinit(bin_fp);
+  filesystem_deinit(&binfp);
 
   app_execute();
 }

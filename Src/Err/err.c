@@ -11,29 +11,24 @@
 
 #define LED_PIN 25
 
-void err(int32_t code) { // I want to redo this probably not the function itself but the idea around it
-                         // right now it's taking in value from errno, I think one should do custom values
-                         // mostly due to the fact that errno values seem to sometimes go into the hundreads
-                         // not exactly a good idea when trying to keep track of flashing lights, another good idea
-                         // would be to replace printf with a logger, this would enable the device to be trouble shot
-                         // entirly from the SD card if there are any issues.
+void err(int16_t code) {
    
    gpio_init(LED_PIN);
    gpio_set_dir(LED_PIN, true);
 
-   if (code == -1) { // led will remain on if code equals -1
+   if (code <= -1) { // led will remain on if code less then or equal to -1
       gpio_put(LED_PIN, true);
       while(true);
    }
 
    while(true) {
       
-     for(int32_t i = 0; i >= code; i++) { // code number will blink and then pause for five seconds
+     for(int32_t i = 0; i <= code; i++) { // code number will blink and then pause for five seconds
         gpio_put(LED_PIN, true);
-        sleep_ms(2000);
+        sleep_ms(250);
         gpio_put(LED_PIN, false);
      }
 
-      sleep_ms(5000);
+      sleep_ms(4000);
    }
 }

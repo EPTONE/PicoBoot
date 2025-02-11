@@ -3,45 +3,54 @@
 #include <errno.h>
 
 /* deps  */
-#include <filesystem/vfs.h>
-#include <filesystem/fat.h>
-#include <blockdevice/sd.h>
+#include "ff.h"
 
 /* code base */
-#include "../Err/err.h"
 #include "filesystem.h"
 #include "../../Conf/conf.h"
-
-/* SD card pointer */
-
-blockdevice_t *sd;
+#include "tf_card.h"
+#include "../Err/err.h"
 
 /* filesystem pointer */
 
-filesystem_t *fatfs;
+FATFS sd;
+FRESULT ffr;
 
 int filesystem_init() {
 
-  sd = blockdevice_sd_create(SPI, SD_SI, SD_SO, SD_CLK, SD_CS, 125000000 / 2 / 4, true);
+  pico_fatfs_set_config(&sdconf);
+
+  for (unsigned int i = 0; i <= 5; i++) {
   
-  if(sd == NULL) {
-    printf("%s\n", "sdcard failed to init");
-  }
+    ffr = f_mount(&sd, "", 1);
+    if (ffr == FR_OK) {
+      break;
+    }
 
-  fatfs = filesystem_fat_create();
-  if (fatfs == NULL) {
-    printf("%s\n", "failed to create fat filesystem");
+    printf("failed to mount sdcard, retry %d/5 | ERROR CODE: %d", i, ffr);
+    pico_fatfs_reboot_spi();
   }
-
-  if (fs_mount("/sd", fatfs, sd) == -1) {
-    printf("%s\n", "sd card failed to mount");
+  if (ffr != FR_OK) {
+    err(ffr);      
   }
 
   return 0;
 }
 
-void filesystem_deinit(FILE *file_fp) {
-  fclose(file_fp);
-  filesystem_fat_free(fatfs);
-  blockdevice_sd_free(sd);
+void filesystem_deinit(FIL *file_fp) {
+  f_close(file_fp);
+  
+  for (unsigned int i = 0; i <= 5; i++) {
+  
+    ffr = f_unmount("");
+    if (ffr == FR_OK) {
+      break;
+    }
+
+    printf("failed to unmount sdcard, retry %d/5 | ERROR CODE: %d", i, ffr);
+  }
+  if (ffr != FR_OK) {
+    err(ffr);      
+  }
+  
 }

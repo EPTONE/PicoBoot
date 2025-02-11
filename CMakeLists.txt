@@ -4,7 +4,8 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS TRUE)
 set(FAMILY rp2040)
 
 include(pico_sdk_import.cmake)
-add_subdirectory(dep/pico-vfs)
+#add_subdirectory(dep/pico-vfs)
+add_subdirectory(dep/pico_fatfs)
 
 project(PicoBoot C CXX ASM)
 
@@ -29,8 +30,8 @@ add_executable( ${CMAKE_PROJECT_NAME}
 
   Conf/conf.h
 
-  Src/ConfigParser/config_parser.c
-  Src/ConfigParser/config_parser.h # not yet still need to brainstorm this
+  #  Src/ConfigParser/config_parser.c
+  #  Src/ConfigParser/config_parser.h # not yet still need to brainstorm this
 )
 
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE -Wl,--print-memory-usage
@@ -42,10 +43,7 @@ target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE -Wl,--print-memory-usage
   hardware_flash
   hardware_sync
 
-  filesystem_fat
-  filesystem_vfs
-  blockdevice_sd
-
+  pico_fatfs
 )
 
 pico_add_extra_outputs(${CMAKE_PROJECT_NAME})
