@@ -26,10 +26,30 @@ and type `mkdir build && cd build`. You'll then want to type `cmake ..` this wil
 other things if there are any error see to it they are resolved, and then type `make`, and the bootloader should begin compiling.
 
 > [!TIP]
-> you can add a `-j your cpu's core count` to `make` to decrease the compile time of the project
+> you can add a `-j your cpu's core count` to `make` to decrease compile time for the project.
 
 Now put the pico into DFU mode, and then plug it into your computor, it then should pop up as a usb mass storage,
 now just drag and drop or use the `cp` command to flash the pico, if everything has done correctly it should be working.
 
 # BUILDING APPLICATIONS
 
+## TEMPLATE
+
+The template repo is already pre set up with all the things required to prepare you for application development
+for the bootloader if can be found [here](https://github.com/EPTONE/PicoBoot-AppTemplate.git) it should work
+without any extra configeration
+
+## FROM SCRATCH
+
+Theres a folder in the root of the repository that is called External this is a folder that contains a linker script
+called [memmap_app_flash.ld](External/memmap_app_flash.ld), you will then want to take this file and add it into your own
+project and then add `pico_set_linker_script(${CMAKE_PROJECT_NAME} ${CMAKE_SOURCE_DIR}/path/to/linker)`.
+
+> [!NOTE]
+> this is also all you just need when porting programs just be sure that you have enough space on flash to add the app.
+
+# CREADIT
+
+I'd like to thank [Hiroyuki Oyama](https://github.com/oyama) for posting his works with his own [bootloader](https://github.com/oyama/pico-sdcard-boot.git)
+as this enabled me to both learn and continue this prusuit in constructing this bootloader, you should also check out the filesystem he uses it was a little
+overpowered for my use case but for those who want to take a gander I'll leave it in the repo [here](dep/pico-vfs), you can also find it [here](https://github.com/oyama/pico-vfs.git).
