@@ -52,4 +52,4 @@ project and then add `pico_set_linker_script(${CMAKE_PROJECT_NAME} ${CMAKE_SOURC
 
 I'd like to thank [Hiroyuki Oyama](https://github.com/oyama) for posting his works with his own [bootloader](https://github.com/oyama/pico-sdcard-boot.git)
 as this enabled me to both learn and continue this prusuit in constructing this bootloader, you should also check out the filesystem he uses it was a little
-overpowered for my use case but for those who want to take a gander I'll leave it in the repo [here](Deps/pico-vfs), you can also find it [here](https://github.com/oyama/pico-vfs.git).
+overpowered for my use case but for those who want to take a gander I'll leave it in the repo [here](./Deps/), you can also find it [here](https://github.com/oyama/pico-vfs.git).
