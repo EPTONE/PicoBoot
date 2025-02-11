@@ -1,59 +1,35 @@
-# HOW TO USE
+# CONFIGERING THE SOFTWARE
 
-## BUILDING THE SOFTWARE
+there should be a folder labeled Conf in the root of this repo, this folder contains a header file with the pins
+and spi identifers change these to however you have set up your current wiring to the sdcard. Next head to the main.c
+located in the Src fold in the root of the repo, you'll see a function called `load_app();` change the file in the double quotes
+to yourfile.bin
 
-You'll want to clone the the [pico-sdk](https://github.com/raspberrypi/pico-sdk.git) first as this will contain many neccesry functions that are used in the software,
-use these commands to download the sdk, and then export it to the enviroment so it can be seen by cmake. 
-(you can also add the export command to your .bashrc)
-    
-```sh
-git clone https://github.com/raspberrypi/pico-sdk.git
-export PICO_SDK_PATH=path/to/dir/
-```
-    
-next you'll want to clone this repository, and it's depenacy [pico-vfs](https://github.com/oyama/pico-vfs.git), use these commands to do so. 
-(The recursive command will automaticlly clone the depenacy). I would also like to recommend, to take a look at the Conf folder, and edit the values
-or look at the values in there, and make sure they corralate with your SD Cards wiring, also the name of the application will also be important to 
-makeing the bootloader load the program. 
-(This configuation set up will be changed in the future in the place of a configuation file .txt file located directly on the SD card
-this will prevent having to constanly recompile and reflash the program onto the pico, and may help in other aspects of the bootloader)
-    
-```sh
-git clone --recursive https://github.com/EPTONE/PicoBoot.git
-cd PicoBoot
-mkdir build
-cd build
-cmake .. && make
-```
+> [!NOTE]
+> the current setup will change in the future to favor a config file which is currently temperally disabled due to a recent
+> change in project dependancies this will reduce the need for recompulation allowing one to focus on there applications,
+> the .conf file will also allow for other configeration options to be broken out in the event that they are required.
 
-I recommend that you add the `-j` following the number of cores on your computer, as this will greatly increase compile time.
-Now press and hold the BOOTSEL button on the pico, while doing so plug it into your computer and waiting until it mounts
-and then drag and drop the .uf2 file or 'cp PicoBoot.uf2 /path/to/pico' and as long as all your cableing is correct, and I've done
-everything right on my end then everything should work.
+# BUILDING THE SOFTWARE
 
-## BUILDING APPLICATIONS
+Your first going to want to clone the [pico-sdk](https://github.com/raspberrypi/pico-sdk.git) into an easy to remeber directory
+using `git clone https://your.url.here`.
 
-In the external file in the root of the repo there is some premade linker scripts, 
-there is also a premade template repo with everything already set up, and ready to be tried out [PicoBoot-AppTemplate](https://github.com/EPTONE/PicoBoot-AppTemplate.git).
+> [!TIP]
+> you can add can `--recursive` to get all the pico-sdk submodules for you to use in other projects.
 
-you'll also need the pico-sdk as well, this will have many of the basic functions you'll want to have
-when using the device [pico-sdk](https://github.com/raspberrypi/pico-sdk.git). You'll have to tell cmake where it is
-with these commands.
+We'll then want to let your shell now where it is with `export your/directory/here`, you can also add this to you
+.bashrc to make availble everytime you start up a terminal.
 
-```sh
-git clone https://github.com/raspberrypi/pico-sdk.git
-export PICO_SDK_PATH=path/to/dir/
-```
+Now your going to want to `git clone --recursive https://this/repo` onto your system, now `cd` into the directory
+and type `mkdir build && cd build`. You'll then want to type `cmake ..` this will generate the makefile as well as some
+other things if there are any error see to it they are resolved, and then type `make`, and the bootloader should begin compiling.
 
-You'll then want to clone the template, and if your itching to just see it work build it and copy the .bin file to you guessed it the SD card
+> [!TIP]
+> you can add a `-j your cpu's core count` to `make` to decrease the compile time of the project
 
-```sh
-git clone https://github.com/EPTONE/PicoBoot-AppTemplate.git
-cd PicoBoot-AppTemplate
-mkdir build
-cd build
-cmake .. && make
-```
+Now put the pico into DFU mode, and then plug it into your computor, it then should pop up as a usb mass storage,
+now just drag and drop or use the `cp` command to flash the pico, if everything has done correctly it should be working.
 
-and again I recommend you add the `-j` at the end of cmake with the number of CPU possed by your CPU as this will make building way faster.
-Now if everythings wired up correctly or I don't go stupied then your pico should be flashing or what ever your currently having it do.
+# BUILDING APPLICATIONS
+
