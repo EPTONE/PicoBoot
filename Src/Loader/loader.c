@@ -53,8 +53,10 @@ void app_execute() {
 
 int cache_check() {
 
+#if(Debug)
   printf("\n\n\t=CACHE CHECK=\n\n");
- 
+#endif
+
   while (true) {
 
     bfr = f_read(&binfp, buffer, sizeof(buffer), &bytesread);
@@ -69,8 +71,10 @@ int cache_check() {
       return 1;
     }
 
+#if(Debug)
     printf("bytes checked: %d\n", bytesread);
     printf("total bytes checked: %d\n", proinc);
+#endif
 
     proinc += bytesread;
   }
@@ -90,7 +94,9 @@ void load_app(const char *app_name) {
 
  if (cache_check() == 0) {
 
+#if(Debug)
    printf("%s\n", "Programs are the same executing");
+#endif
 
    app_execute(); 
  }
@@ -112,7 +118,9 @@ void load_app(const char *app_name) {
   
   /* Load Binary */
  
+#if(Debug)
   printf("\n\n\t=BINARY LOAD=\n\n");
+#endif
 
   while(true) {
 
@@ -128,8 +136,11 @@ void load_app(const char *app_name) {
     flash_range_program(BOOTLOADER_OFFSET + proinc, buffer, bytesread);
     restore_interrupts(ints);
 
+#if(Debug)
     printf("bytesread: %d\n", bytesread); // prints amount of bytes read
     printf("total bytes read: %d\n", proinc);
+#endif
+    
     proinc += bytesread; // adjust program size (should rename this as it's used to incriment flash program size)
   }
 

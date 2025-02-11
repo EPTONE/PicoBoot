@@ -4,8 +4,8 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS TRUE)
 set(FAMILY rp2040)
 
 include(pico_sdk_import.cmake)
-#add_subdirectory(dep/pico-vfs)
-add_subdirectory(dep/pico_fatfs)
+#add_subdirectory(Deps/pico-vfs)
+add_subdirectory(Deps/pico_fatfs)
 
 project(PicoBoot C CXX ASM)
 
@@ -26,8 +26,6 @@ add_executable( ${CMAKE_PROJECT_NAME}
   Src/Err/err.c
   Src/Err/err.h
 
-  Src/Linker/linkerscript.h
-
   Conf/conf.h
 
   #  Src/ConfigParser/config_parser.c
@@ -45,6 +43,12 @@ target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE -Wl,--print-memory-usage
 
   pico_fatfs
 )
+
+if(${CMAKE_BUILD_TYPE} STREQUAL "Debug")
+  target_compile_definitions(${CMAKE_PROJECT_NAME} PUBLIC Debug=1)
+else()
+  target_compile_definitions(${CMAKE_PROJECT_NAME} PUBLIC Debug=0)
+endif()
 
 pico_add_extra_outputs(${CMAKE_PROJECT_NAME})
 pico_set_linker_script(${CMAKE_PROJECT_NAME} ${CMAKE_SOURCE_DIR}/Src/Linker/memmap_bootloader.ld)
