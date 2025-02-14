@@ -5,6 +5,9 @@ when:
 steps:
   - name: build
     image: eptone/pico-build:pico-build
+    volumes:
+      - /mnt/USR-STORAGE/PROGRAMS/BFS/Pico/picotool/build:/tools
+      - /mnt/USR-STORAGE/PROGRAMS/Downloaded/Pico/Libs/PicoSDKs:/libs
     commands:
       - export PICO_SDK_PATH=/libs/pico-sdk
       - export picotool_DIR=/tools/picotool
@@ -13,6 +16,4 @@ steps:
       - cd build
       - cmake ..
       - make -j16
-    volumes:
-      - /mnt/USR-STORAGE/PROGRAMS/BFS/Pico/picotool/build:/tools
-      - /mnt/USR-STORAGE/PROGRAMS/Downloaded/Pico/Libs/PicoSDKs:/libs
+
