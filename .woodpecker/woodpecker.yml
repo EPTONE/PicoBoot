@@ -9,6 +9,8 @@ steps:
       - /mnt/USR-STORAGE/PROGRAMS/BFS/Pico/picotool/build:/tools
       - /mnt/USR-STORAGE/PROGRAMS/Downloaded/Pico/Libs/PicoSDKs:/libs
     commands:
+      - ls /
+      - ls /libs
       - export PICO_SDK_PATH=/libs/pico-sdk
       - export picotool_DIR=/tools/picotool
       - export PIMORONI_PICO_PATH=/libs/pimoroni-pico
