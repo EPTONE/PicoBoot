@@ -14,5 +14,5 @@ steps:
       - cmake ..
       - make -j16
     volumes:
-      - USR-STORAGE/PROGRAMS/BFS/Pico/picotool/build:/tools
-      - USR-STORAGE/PROGRAMS/Downloaded/Pico/Libs/PicoSDKs:/libs
+      - /mnt/USR-STORAGE/PROGRAMS/BFS/Pico/picotool/build:/tools
+      - /mnt/USR-STORAGE/PROGRAMS/Downloaded/Pico/Libs/PicoSDKs:/libs
