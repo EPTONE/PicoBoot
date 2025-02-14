@@ -4,14 +4,15 @@ when:
 
 steps:
   - name: build
-    image: pico-build:latest
+    image: eptone/pico-build:pico-build
     commands:
       - export PICO_SDK_PATH=/libs/pico-sdk
-      - export picotool_DIR=/libs/picotool
+      - export picotool_DIR=/tools/picotool
       - export PIMORONI_PICO_PATH=/libs/pimoroni-pico
       - mkdir build
       - cd build
       - cmake ..
-      - make -j4
+      - make -j16
     volumes:
-      - /Programs/Downloaded/Pico/Libs:/libs
+      - USR-STORAGE/PROGRAMS/BFS/Pico/picotool/build:/tools
+      - USR-STORAGE/PROGRAMS/Downloaded/Pico/Libs/PicoSDKs:/libs
